@@ -1,0 +1,26 @@
+{
+  "name": "chat",
+  "version": "1.0.0",
+  "description": "chat with your friends",
+  "main": "server.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yibuyisheng/chat.git"
+  },
+  "keywords": [
+    "chat"
+  ],
+  "author": "yibuyisheng (zhangli)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yibuyisheng/chat/issues"
+  },
+  "homepage": "https://github.com/yibuyisheng/chat",
+  "dependencies": {
+    "koa": "^0.13.0",
+    "socket.io": "^1.2.0"
+  }
+}
