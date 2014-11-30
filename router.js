@@ -2,7 +2,7 @@
 
 module.exports = {
     '/index': {
-        template: '/index.html',
+        template: '/index.jade',
         contentType: 'text/html'
     }
 };

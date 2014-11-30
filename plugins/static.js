@@ -1,4 +1,6 @@
-// 管理静态文件
+/**
+* 管理静态文件
+*/
 module.exports = StaticManager;
 
 var fs = require('fs');

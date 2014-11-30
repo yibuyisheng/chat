@@ -1,39 +1,30 @@
-var config = require('./config');
-var router = require('./router');
+var koa = require('koa');
+var Router = require('koa-router');
+var mount = require('koa-mount');
+var http = require('http');
+var socketio = require('socket.io');
+var jade = require('koa-jade');
 
-var StaticManager = require('./plugins/static');
-var TemplateManager = require('./plugins/template');
-var app = require('koa')();
+var app = koa();
+var api = new Router();
 
-var staticManager = new StaticManager(config['static']);
-var templateManager = new TemplateManager(config.templates);
-
-
-app.use(function * () {
-    if (/^\/static/.test(this.request.path)) {
-        if (/js$/i.test(this.request.path)) {
-            this.type = 'application/javascript';
-        }
-        this.body = staticManager.createReadStream(this.request.path.replace('static', ''));
-    } else {
-        var routerObj = router[this.request.path];
-        console.log(this.request.path);
-        if (!routerObj) {
-            this.status = 404;
-        } else {
-            this.type = routerObj.contentType;
-
-            var parameters;
-            if (routerObj.controller instanceof Function) {
-                parameters = routerObj.controller.call(this, routerObj);
-            }
-
-            this.body = yield templateManager.render(routerObj.template, parameters);
-        }
-    }
+api.get('/index', function*(next) {
+    yield this.render('index', {});
 });
 
-var server = require('http').createServer(app.callback());
-var io = require('socket.io')(server);
-io.on('connection', function() { /* … */ });
+app.use(
+    jade.middleware({
+        viewPath: 'templates',
+        debug: true,
+        pretty: false,
+        compileDebug: false
+    })
+).use(mount('/', api.middleware()));
+
+var server = http.createServer(app.callback());
+var io = socketio(server);
+
+io.on('connection', function() {
+    // TODO
+});
 server.listen(3000);
