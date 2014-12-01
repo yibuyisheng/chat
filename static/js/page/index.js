@@ -1,1 +1,1 @@
-var haha;
+require(['bootstrap', 'angular']);

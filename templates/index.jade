@@ -1,19 +1,31 @@
 doctype html
-html(lang="en")
+html
   head
-    title= chat
-    link(src="/static/lib/bootstrap-3.3.1/css/bootstrap.css")
-    script(src="/static/js/config.js")
-    script(src="/static/lib/seajs/sea.js")
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+
+    title chat
+    link(href="/static/lib/bootstrap-3.3.1/css/bootstrap.css", rel="stylesheet")
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
     body
-        h1 Jade - node template engine111222
-        #container.col
-            if youAreUsingJade
-                p You are amazing
-            else
-                p Get on it!
-        p.
-            Jade is a terse and simple
-            templating language with a
-            strong focus on performance
-            and powerful features.
+        nav.navbar.navbar-default(role="navigation")
+            div.container-fluid
+                div.navbar-header
+                    button.btn.btn-default.navbar-btn 联系人
+                div.collapse.navbar-collapse
+                    ul.nav.navbar-nav
+                        li.active
+                            a(href="#") Link
+                                span.sr-only current
+                        li
+                            a(href="#") Link
+
+        include ./contact.jade
+
+        script(src="/static/lib/requirejs/require.js")
+        script(src="/static/js/config.js")
+        script(src="/static/js/page/index.js")
