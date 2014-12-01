@@ -1,11 +1,10 @@
 doctype html
 html(lang="en")
   head
-    title= pageTitle
-    script(type='text/javascript').
-        if (foo) {
-            bar(1 + 5)
-        }
+    title= chat
+    link(src="/static/lib/bootstrap-3.3.1/css/bootstrap.css")
+    script(src="/static/js/config.js")
+    script(src="/static/lib/seajs/sea.js")
     body
         h1 Jade - node template engine111222
         #container.col

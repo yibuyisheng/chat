@@ -9,9 +9,10 @@ module.exports = function(grunt) {
                 options: {
                     harmony: true,
                     debug: true,
-                    watch: ['server.js', 'templates', 'plugins'],
+                    watch: ['server.js', 'templates', 'plugins', 'node_modules'],
                     extensions: ['js,jade'],
-                    forceSync: true
+                    forceSync: true,
+                    quiet: false
                 }
             }
         },
@@ -23,20 +24,7 @@ module.exports = function(grunt) {
                 files: {
                     "static/css/main.css": "static/less/main.less"
                 }
-            }//,
-            // production: {
-            //     options: {
-            //         paths: ["assets/css"],
-            //         cleancss: true,
-            //         modifyVars: {
-            //             imgPath: '"http://mycdn.com/path/to/images"',
-            //             bgColor: 'red'
-            //         }
-            //     },
-            //     files: {
-            //         "path/to/result.css": "path/to/source.less"
-            //     }
-            // }
+            }
         },
         watch: {
             less: {
