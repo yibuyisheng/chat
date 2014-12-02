@@ -1,24 +1,23 @@
 require([
         'socketio',
-        'js/common/middleware',
+        'js/module/message-middleware',
+        'js/common/directives',
         'bootstrap',
         'angular'
     ],
     function(
         io,
-        middleware
+        messageMiddleware
     ) {
-        angular.module('index', []).controller('IndexController', [
+        angular.module('index', ['directivesModule']).controller('IndexController', [
             '$scope',
             function($scope) {
                 // socket连接
                 var socket = io();
                 socket.on('connect', function() {
                     $scope.send = function() {
-                        var messageDealer = $.extend({}, middleware, {msg: '测试消息发送，收到请回复'});
-                        socket.emit('chat message', messageDealer.go(function() {
-                            this.msg += '; 消息加点内容'
-                        }).msg);
+                        var msg = messageMiddleware.setMessage($scope.message).go().getMessage();
+                        socket.emit('chat message', msg);
                         socket.on('chat message', function() {
                             console.log('chat message from server', arguments);
                         });

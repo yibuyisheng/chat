@@ -40,7 +40,7 @@ html
                         div 我靠，你才是傻子
             div.tool-box.clearfix
                 button.send.pull-right(ng-click="send()") 发送
-            div.chat-editor(contenteditable="true")
+            div.chat-editor(contenteditable="true", ng-model="message")
                 | 内容可编辑
 
         div(ng-show="showContact")
