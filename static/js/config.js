@@ -4,7 +4,8 @@ var config = {
     paths: {
         jquery: 'lib/jquery/jquery-1.11.1.min',
         bootstrap: 'lib/bootstrap-3.3.1/js/bootstrap.min',
-        angular: 'lib/angular/angular'
+        angular: 'lib/angular/angular',
+        socketio: '/socket.io/socket.io.js'
     },
     shim: {
         bootstrap: {

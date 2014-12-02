@@ -39,7 +39,7 @@ html
                     div.message-content.clearfix
                         div 我靠，你才是傻子
             div.tool-box.clearfix
-                button.send.pull-right 发送
+                button.send.pull-right(ng-click="send()") 发送
             div.chat-editor(contenteditable="true")
                 | 内容可编辑
 

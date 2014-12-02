@@ -25,7 +25,10 @@ app.use(
 var server = http.createServer(app.callback());
 var io = socketio(server);
 
-io.on('connection', function() {
-    // TODO
+io.on('connection', function(socket) {
+    socket.on('chat message', function() {
+        console.log('chat message from client:', arguments);
+        socket.emit('chat message', '我收到了你的消息');
+    });
 });
 server.listen(3000);
