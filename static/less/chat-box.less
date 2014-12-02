@@ -1,0 +1,57 @@
+.chat-box {
+    .messages{
+        border: 1px solid #ddd;
+        padding: 10px;
+        background: lighten(yellow, 40%);
+
+        &>div:first-child {
+            margin-top: 0;
+        }
+        &>div {
+            margin-top: 10px;
+        }
+
+        .left .head {
+            float: left;
+        }
+        .right .head {
+            float: right;
+        }
+        .head {
+            width: 30px;
+            height: 30px;
+        }
+
+        .message-content>div {
+            padding:5px;
+            border:1px solid #ddd;
+        }
+        .right .message-content {
+            text-align: right;
+            margin-right: 30px;
+
+            &>div {
+                float: right;
+            }
+        }
+        .left .message-content {
+            margin-left: 30px;
+
+            &>div {
+                float: left;
+            }
+        }
+    }
+
+    .tool-box {
+        margin-top: 20px;
+    }
+    .chat-editor {
+        border: 1px solid #ddd;
+        padding: 5px;
+
+        &:focus {
+            outline: none;
+        }
+    }
+}

@@ -5,3 +5,51 @@
 .contact img {
   padding: 0 5px;
 }
+.chat-box .messages {
+  border: 1px solid #ddd;
+  padding: 10px;
+  background: #ffffcc;
+}
+.chat-box .messages > div:first-child {
+  margin-top: 0;
+}
+.chat-box .messages > div {
+  margin-top: 10px;
+}
+.chat-box .messages .left .head {
+  float: left;
+}
+.chat-box .messages .right .head {
+  float: right;
+}
+.chat-box .messages .head {
+  width: 30px;
+  height: 30px;
+}
+.chat-box .messages .message-content > div {
+  padding: 5px;
+  border: 1px solid #ddd;
+}
+.chat-box .messages .right .message-content {
+  text-align: right;
+  margin-right: 30px;
+}
+.chat-box .messages .right .message-content > div {
+  float: right;
+}
+.chat-box .messages .left .message-content {
+  margin-left: 30px;
+}
+.chat-box .messages .left .message-content > div {
+  float: left;
+}
+.chat-box .tool-box {
+  margin-top: 20px;
+}
+.chat-box .chat-editor {
+  border: 1px solid #ddd;
+  padding: 5px;
+}
+.chat-box .chat-editor:focus {
+  outline: none;
+}

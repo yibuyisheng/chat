@@ -26,17 +26,22 @@ html
 
         div.chat-box
             div.messages
-                div
+                div.left
                     div.clearfix
-                        img(src="http://placehold.it/30x30", style="float:left")
+                        img.head(src="http://placehold.it/30x30")
                         |张三
-                    div(style="margin:0 30px;padding:5px;border:1px solid #ddd;") 哈哈，你个傻子
-                div(style="margin-top:10px")
+                    div.message-content.clearfix
+                        div 哈哈，你个傻子
+                div.right
                     div.clearfix(style="text-align:right")
-                        img(src="http://placehold.it/30x30", style="float:right")
+                        img.head(src="http://placehold.it/30x30", style="float:right")
                         |李四
-                    div(style="margin:0 30px;padding:5px;border:1px solid #ddd;text-align:right") 我靠，你才是傻子
-            div.chat-editor
+                    div.message-content.clearfix
+                        div 我靠，你才是傻子
+            div.tool-box.clearfix
+                button.send.pull-right 发送
+            div.chat-editor(contenteditable="true")
+                | 内容可编辑
 
         div(ng-show="showContact")
             include ./contact.jade
