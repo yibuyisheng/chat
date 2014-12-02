@@ -14,7 +14,7 @@ function throwError(result) {
     return result && result.length >= 2 ? Array.prototype.slice.call(result, 1) : null;
 }
 
-function * findList(sql) {
+function * executeSql(sql) {
     try {
         var conn = throwError(yield pool.getConnection.bind(pool))[0];
         return throwError(yield conn.query.bind(conn, sql));
@@ -25,23 +25,8 @@ function * findList(sql) {
     }
 }
 
-function * update(sql) {
-    try {
-        var conn = throwError(yield pool.getConnection.bind(pool))[0];
-        var result = throwError(yield conn.query.bind(conn, sql))[0];
-        return result;
-    } catch (e) {
-        throw e;
-    } finally {
-        conn && conn.release();
-    }
-}
-
 module.exports = {
-    findList: function(sql, callback) {
-        executeGeneratorFn(findList.bind(null, sql), callback);
-    },
-    update: function(sql, callback) {
-        executeGeneratorFn(update.bind(null, sql), callback);
+    executeSql: function(sql, callback) {
+        executeGeneratorFn(executeSql.bind(null, sql), callback);
     }
 };
