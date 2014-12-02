@@ -16,9 +16,8 @@ function throwError(result) {
 
 function * findList(sql) {
     try {
-        var conn = throwError(yield pool.getConnection.bind(null))[0];
-        var rows = throwError(yield conn.query.bind(null, sql))[0];
-        return rows;
+        var conn = throwError(yield pool.getConnection.bind(pool))[0];
+        return throwError(yield conn.query.bind(conn, sql));
     } catch (e) {
         throw e;
     } finally {
@@ -28,8 +27,8 @@ function * findList(sql) {
 
 function * update(sql) {
     try {
-        var conn = throwError(yield pool.getConnection.bind(null))[0];
-        var result = throwError(yield conn.query.bind(null, sql))[0];
+        var conn = throwError(yield pool.getConnection.bind(pool))[0];
+        var result = throwError(yield conn.query.bind(conn, sql))[0];
         return result;
     } catch (e) {
         throw e;
