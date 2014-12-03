@@ -1,12 +1,12 @@
 var co = require('co');
 var compose = require('koa-compose');
+var extend = require('nodejs-lib').extend;
 
 var middleware = {
-    go: function() {
+    go: function(thisArg) {
         var gen = compose(this._genFns);
         var fn = co.wrap(gen);
-        fn.call(this);
-        return this;
+        return fn.call(thisArg);
     },
     use: function(genFn) {
         if (genFn instanceof Function) {
@@ -20,6 +20,6 @@ var middleware = {
     }
 };
 
-module.exports = function(props) {
-    return Object.create(middleware, props || {});
+module.exports = function() {
+    return extend({}, middleware);
 }
