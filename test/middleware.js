@@ -2,7 +2,7 @@ var createMiddleware = require('../common/middleware.js');
 var assert = require('assert');
 
 describe('#middleware', function() {
-    it.only('middleware', function(done) {
+    it('middleware', function(done) {
         createMiddleware().use(function * (next) {
             assert.equal(1, this.prop);
             this.prop = 2;

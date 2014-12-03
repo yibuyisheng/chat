@@ -28,31 +28,39 @@ app.use(
 var server = http.createServer(app.callback());
 var io = socketio(server);
 
+var sockets = {};
 io.on('connection', function(socket) {
     socket.on('chat message', function(message) {
-        createMiddleware({message: message}).use(function * (next) {
+        createMiddleware().use(function * (next) {
             this.messageData = JSON.parse(this.message);
             yield next;
         }).use(function * (next) {
-            if (!userService.validateToken(data.token)) {
-                this.status = 0;
-            }
-            messageService.parse(data);
+            var user = userService.validateToken(this.messageData.token);
+            socket.userId = user.id;
+            sockets[user.id] = socket;
+
+            this.messageParse = yield messageService.parse(this.messageData);
+            yield next;
+        }).use(function * (next) {
+            var _this = this;
+            this.messageParse.userIds.forEach(function(userId) {
+                if (!sockets[userId]) return;
+                sockets[userId].emit('chat message', JSON.stringify({
+                    content: _this.messageParse.content,
+                    chatroomId: _this.messageParse.chatroomId
+                }));
+            });
+
             yield next;
         }).use(function * () {
-            console.log('-------------', this);
-        }).go();
-        // try {
-        //     var data = JSON.parse(message);
-        //     if (!userService.validateToken(data.token)) {
-        //         return socket.emit('error', '用户验证失败');
-        //     }
-        //     messageService.parse(data);
-        // } catch (e) {
-        //     socket.emit('error', '消息数据错误');
-        // }
+            socket.emit('chat message', '消息通过检测');
+        }).go({message: message}).catch(function(error) {
+            socket.emit('chat error', '消息错误：' + error.toString());
+        });
+    });
 
-        // socket.emit('chat message', '我收到了你的消息');
+    socket.on('disconnect', function() {
+        sockets[socket.userId] = null;
     });
 });
 server.listen(3000);

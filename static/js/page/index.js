@@ -14,15 +14,19 @@ require([
             function($scope) {
                 // socket连接
                 var socket = io();
-                socket.on('connect', function() {
-                    socket.on('chat message', function() {
-                        console.log('chat message from server', arguments);
-                    });
-
+                socket.on('connect', function(message) {
                     $scope.send = function() {
                         var msg = messageMiddleware.setMessage($scope.message).go().getMessage();
-                        socket.emit('chat message', msg);
+                        socket.emit('chat message', JSON.stringify({message: msg, token: 'token'}));
                     };
+
+                    socket.on('chat message', function(message) {
+                        console.log('chat message from server', message);
+                    });
+
+                    socket.on('chat error', function(message) {
+                        console.log(message);
+                    });
                 });
             }
         ]);
