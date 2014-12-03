@@ -17,7 +17,12 @@ require([
                 socket.on('connect', function(message) {
                     $scope.send = function() {
                         var msg = messageMiddleware.setMessage($scope.message).go().getMessage();
-                        socket.emit('chat message', JSON.stringify({message: msg, token: 'token'}));
+                        socket.emit('chat message', JSON.stringify({
+                            content: msg,
+                            token: 1,
+                            chatroomId: 1,
+                            fromUserId: 1
+                        }));
                     };
 
                     socket.on('chat message', function(message) {

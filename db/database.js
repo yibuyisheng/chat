@@ -8,6 +8,7 @@ var pool = mysql.createPool({
 
 module.exports = {
     executeSql: function(sql) {
+        console.log(sql);
         return new Promise(function(resolve, reject) {
             pool.getConnection(function(error, conn) {
                 if (error) return reject(error);

@@ -6,5 +6,5 @@ function findMemberIds(chatroomId) {
 }
 
 module.exports = {
-    findMembers: findMembers
+    findMemberIds: findMemberIds
 };

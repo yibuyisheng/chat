@@ -8,12 +8,25 @@ var serve = require('koa-static');
 var userService = require('./service/user.js');
 var messageService = require('./service/message.js');
 var createMiddleware = require('./common/middleware.js');
+var parse = require('co-body');
 
 var app = koa();
 var api = new Router();
 
-api.get('/index', function*(next) {
+api.get('/index', function * () {
     yield this.render('index', {});
+}).get('/login', function * () {
+    yield this.render('login', {});
+}).post('/login-ajax', function * () {
+    var data = yield parse.json(this.request);
+    try {
+        var user = yield userService.login(data.name, data.password);
+        this.response.body = JSON.stringify(user);
+        this.response.set('Content-Type', 'text/plain');
+    } catch (e) {
+        this.response.body = e.message;
+        this.response.status = 406;
+    }
 });
 
 app.use(
@@ -35,7 +48,7 @@ io.on('connection', function(socket) {
             this.messageData = JSON.parse(this.message);
             yield next;
         }).use(function * (next) {
-            var user = userService.validateToken(this.messageData.token);
+            var user = yield userService.validateToken(this.messageData.token);
             socket.userId = user.id;
             sockets[user.id] = socket;
 
@@ -55,6 +68,7 @@ io.on('connection', function(socket) {
         }).use(function * () {
             socket.emit('chat message', '消息通过检测');
         }).go({message: message}).catch(function(error) {
+            console.log(error.stack);
             socket.emit('chat error', '消息错误：' + error.toString());
         });
     });

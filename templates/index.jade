@@ -1,18 +1,9 @@
-doctype html
-html
-  head
-    meta(charset="utf-8")
-    meta(http-equiv="X-UA-Compatible", content="IE=edge")
-    meta(name="viewport", content="width=device-width, initial-scale=1")
+extends ./layout.jade
 
+block head
     title chat
-    link(href="/static/lib/bootstrap-3.3.1/css/bootstrap.css", rel="stylesheet")
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    link(href="/static/css/main.css", rel="stylesheet")
-    body(ng-controller="IndexController")
+block content
+    div(ng-controller="IndexController")
         nav.navbar.navbar-default(role="navigation")
             div.container-fluid
                 div.navbar-header
@@ -46,6 +37,6 @@ html
         div(ng-show="showContact")
             include ./contact.jade
 
-        script(src="/static/lib/requirejs/require.js")
-        script(src="/static/js/config.js")
-        script(src="/static/js/page/index.js")
+block javascript
+    script(src="/static/js/page/index.js")
+

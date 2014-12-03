@@ -1,8 +1,12 @@
 var db = require('../db/database.js');
+var format = require('nodejs-lib').format;
 var chatroomService = require('./chatroom.js');
 
 function saveMessage(fromUserId, chatroomId, content) {
-    var sql = `insert into chat.message(content, from_user_id, chatroom_id) values('${content}', ${fromUserId}, ${chatroomId})`;
+    var sql = format(
+        "insert into chat.message(content, from_user_id, chatroom_id) values('{0}', {1}, {2})",
+        content, fromUserId, chatroomId
+    );
     return db.executeSql(sql);
 }
 

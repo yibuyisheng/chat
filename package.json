@@ -21,6 +21,7 @@
   "homepage": "https://github.com/yibuyisheng/chat",
   "dependencies": {
     "co": "^4.0.0",
+    "co-body": "^1.0.0",
     "jade": "^1.7.0",
     "koa": "^0.13.0",
     "koa-compose": "^2.3.0",
