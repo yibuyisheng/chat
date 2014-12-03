@@ -4,7 +4,9 @@ var format = require('nodejs-lib').format;
 function validateToken(token) {
     // 暂时将token当成userId
     return db.executeSql('select * from chat.user where id=' + token).then(function(result) {
-        return result[0][0];
+        var user = result[0][0];
+        user.token = user.id;
+        return user;
     });
 }
 
@@ -21,7 +23,6 @@ function login(name, password) {
             throw new Error('用户名或密码错误');
         }
         user.token = user.id;
-        user.id = null;
         return user;
     });
 }

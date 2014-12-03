@@ -30,6 +30,9 @@
   padding: 5px;
   border: 1px solid #ddd;
 }
+.chat-box .messages .right > div:first-child {
+  text-align: right;
+}
 .chat-box .messages .right .message-content {
   text-align: right;
   margin-right: 30px;

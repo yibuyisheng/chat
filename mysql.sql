@@ -21,6 +21,7 @@ CREATE TABLE `chat`.`message` (
   `content` VARCHAR(10000) NULL,
   `from_user_id` INT(11) NULL,
   `chatroom_id` INT(11) NULL,
+  `send_date` DATETIME NULL,
   PRIMARY KEY (`id`));
 
 CREATE TABLE `chat`.`chatroom_user` (

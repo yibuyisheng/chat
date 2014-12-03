@@ -1,17 +1,30 @@
 require([
         'socketio',
         'js/module/message-middleware',
+        'js/common/url',
         'js/common/directives',
         'bootstrap',
         'angular'
     ],
     function(
         io,
-        messageMiddleware
+        messageMiddleware,
+        url
     ) {
         angular.module('index', ['directivesModule']).controller('IndexController', [
             '$scope',
-            function($scope) {
+            '$http',
+            function(
+                $scope,
+                $http
+            ) {
+                $scope.user = page.user;
+
+                // 初始化获取消息
+                $http.get('/get-messages-ajax?chatroom_id=1&token=' + $scope.user.token).then(function(result) {
+                    $scope.messages = result.data;
+                });
+
                 // socket连接
                 var socket = io();
                 socket.on('connect', function(message) {
@@ -19,9 +32,9 @@ require([
                         var msg = messageMiddleware.setMessage($scope.message).go().getMessage();
                         socket.emit('chat message', JSON.stringify({
                             content: msg,
-                            token: 1,
-                            chatroomId: 1,
-                            fromUserId: 1
+                            datetime: new Date().getTime(),
+                            token: $scope.user.token,
+                            chatroomId: 1
                         }));
                     };
 

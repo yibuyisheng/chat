@@ -14,7 +14,13 @@ var app = koa();
 var api = new Router();
 
 api.get('/index', function * () {
-    yield this.render('index', {});
+    var token = this.request.query.token;
+    try {
+        var user = yield userService.validateToken(token);
+        yield this.render('index', {user: user});
+    } catch (e) {
+        this.response.redirect('/login');
+    }
 }).get('/login', function * () {
     yield this.render('login', {});
 }).post('/login-ajax', function * () {
@@ -26,6 +32,17 @@ api.get('/index', function * () {
     } catch (e) {
         this.response.body = e.message;
         this.response.status = 406;
+    }
+}).get('/get-messages-ajax', function * () {
+    try {
+        yield userService.validateToken(this.request.query.token);
+        console.log('----------');
+        var messages = yield messageService.getMessagesByChatroom(this.request.query.chatroom_id);
+        this.response.body = JSON.stringify(messages);
+        this.response.set('Content-Type', 'text/plain');
+    } catch (e) {
+        this.response.body = '错误：' + e.message;
+        this.response.status = 403;
     }
 });
 
@@ -52,6 +69,7 @@ io.on('connection', function(socket) {
             socket.userId = user.id;
             sockets[user.id] = socket;
 
+            this.messageData.fromUserId = user.id;
             this.messageParse = yield messageService.parse(this.messageData);
             yield next;
         }).use(function * (next) {

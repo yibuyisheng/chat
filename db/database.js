@@ -17,6 +17,7 @@ module.exports = {
         }).then(function(conn) {
             return new Promise(function(resolve, reject) {
                 conn.query(sql, function(error) {
+                    conn.release();
                     if (error) return reject(error);
                     resolve(Array.prototype.slice.call(arguments, 1));
                 });

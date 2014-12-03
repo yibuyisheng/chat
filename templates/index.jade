@@ -17,18 +17,25 @@ block content
 
         div.chat-box
             div.messages
-                div.left
+                div(ng-repeat="message in messages", ng-class="message.from_user_id==user.id?'right':'left'")
                     div.clearfix
-                        img.head(src="http://placehold.it/30x30")
-                        |张三
+                        img.head(ng-src="{{ message.from_user_avatar }}")
+                        span(ng-bind="message.from_user_nickname")
                     div.message-content.clearfix
-                        div 哈哈，你个傻子
-                div.right
-                    div.clearfix(style="text-align:right")
-                        img.head(src="http://placehold.it/30x30", style="float:right")
-                        |李四
-                    div.message-content.clearfix
-                        div 我靠，你才是傻子
+                        div(ng-bind="message.content")
+
+                //- div.left
+                //-     div.clearfix
+                //-         img.head(src="http://placehold.it/30x30")
+                //-         |张三
+                //-     div.message-content.clearfix
+                //-         div 哈哈，你个傻子
+                //- div.right
+                //-     div.clearfix(style="text-align:right")
+                //-         img.head(src="http://placehold.it/30x30")
+                //-         |李四
+                //-     div.message-content.clearfix
+                //-         div 我靠，你才是傻子
             div.tool-box.clearfix
                 button.send.pull-right(ng-click="send()") 发送
             div.chat-editor(contenteditable="true", ng-model="message")
@@ -38,5 +45,15 @@ block content
             include ./contact.jade
 
 block javascript
+    script.
+        var page = {
+            user: {
+                id: '#{user.id}',
+                token: '#{user.token}',
+                name: '#{user.name}',
+                nickname: '#{user.nickname}',
+                email: '#{user.email}'
+            }
+        };
     script(src="/static/js/page/index.js")
 

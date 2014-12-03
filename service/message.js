@@ -1,24 +1,46 @@
 var db = require('../db/database.js');
 var format = require('nodejs-lib').format;
+var dateFormat = require('nodejs-lib').dateFormat;
 var chatroomService = require('./chatroom.js');
 
-function saveMessage(fromUserId, chatroomId, content) {
+function saveMessage(fromUserId, chatroomId, content, sendDate) {
     var sql = format(
-        "insert into chat.message(content, from_user_id, chatroom_id) values('{0}', {1}, {2})",
-        content, fromUserId, chatroomId
+        "insert into chat.message(content, from_user_id, chatroom_id, send_date) values('{0}', {1}, {2}, '{3}')",
+        content, fromUserId, chatroomId, dateFormat(new Date(sendDate), 'yyyy-MM-dd HH:mm:ss')
     );
     return db.executeSql(sql);
 }
 
 function parse(messageData) {
     var chatroomId = messageData.chatroomId;
-    return saveMessage(messageData.fromUserId, messageData.chatroomId, messageData.content).then(function() {
+    return saveMessage(
+        messageData.fromUserId,
+        messageData.chatroomId,
+        messageData.content,
+        messageData.datetime
+    ).then(function() {
         return chatroomService.findMemberIds(chatroomId);
     }).then(function(result) {
         return {userIds: result[0], chatroomId: chatroomId};
     });
 }
 
+function getMessagesByChatroom(chatroomId) {
+    var sql = format([
+        "select m.id, m.content, m.send_date, m.from_user_id, u.avatar from_user_avatar, u.nickname from_user_nickname",
+        "from chat.message m",
+        "inner join chat.chatroom_user cu on m.chatroom_id=cu.chatroom_id",
+        "inner join chat.user u on u.id=cu.user_id",
+        "where cu.chatroom_id={0}",
+        "group by m.id order by send_date asc"
+    ].join(' '), chatroomId);
+
+    return db.executeSql(sql).then(function(result) {
+        return result[0];
+    });
+}
+
 module.exports = {
-    parse: parse
+    parse: parse,
+    getMessagesByChatroom: getMessagesByChatroom
 };
