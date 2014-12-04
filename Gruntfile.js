@@ -9,7 +9,16 @@ module.exports = function(grunt) {
                 options: {
                     harmony: true,
                     debug: true,
-                    watch: ['server.js', 'templates', 'plugins', 'node_modules', 'service', 'db', 'common'],
+                    watch: [
+                        'server.js',
+                        'templates',
+                        'plugins',
+                        'node_modules',
+                        'service',
+                        'db',
+                        'common',
+                        'router.js'
+                    ],
                     extensions: ['js,jade'],
                     forceSync: true,
                     quiet: false

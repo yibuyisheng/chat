@@ -27,6 +27,11 @@ require([
                 $http.get('/get-messages-ajax?chatroom_id=1&token=' + $scope.user.token).then(function(result) {
                     $scope.messages = result.data;
                 });
+                // 初始化聊天室
+                $http.get('/chatroom-ajax?token=' + $scope.user.token).then(function(result) {
+                    $scope.rooms = result.data;
+                    $scope.activeRoom = $scope.rooms[0];
+                });
 
                 // socket连接
                 var socket = io('/?token=' + $scope.user.token);
@@ -37,7 +42,7 @@ require([
                             content: msg,
                             datetime: new Date().getTime(),
                             token: $scope.user.token,
-                            chatroomId: 1
+                            chatroomId: $scope.activeRoom.id
                         }));
                     };
 
@@ -46,7 +51,6 @@ require([
                         safeApply($scope, function() {
                             $scope.messages.push(data);
                         });
-                        // console.log('chat message from server', message);
                     });
 
                     socket.on('chat error', function(message) {

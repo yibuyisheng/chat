@@ -10,10 +10,12 @@ block content
                     button.btn.btn-default.navbar-btn(ng-click="showContact=!showContact") 联系人
                 div.collapse.navbar-collapse
                     ul.nav.navbar-nav(style="margin-left:5px")
-                        li.active
-                            a(href="#") 第一个群
-                        li
-                            a(href="#") 与张三的聊天
+                        li(ng-repeat="room in rooms", ng-class="room.id==activeRoom.id?'active':''")
+                            a(href="javascript:;", ng-bind="room.name")
+                        //- li.active
+                        //-     a(href="#") 第一个群
+                        //- li
+                        //-     a(href="#") 与张三的聊天
 
         div.chat-box
             div.messages
