@@ -22,10 +22,10 @@ function parse(messageData) {
         var sql = format([
             "select m.id, m.from_user_id,",
                 "u.avatar from_user_avatar, u.nickname from_user_nickname,",
-                "group_concat(cast(u.id as char)) user_ids",
+                "group_concat(cast(cu.id as char)) user_ids",
             "from chat.message m",
             "inner join chat.chatroom_user cu on m.chatroom_id=cu.chatroom_id",
-            "inner join chat.user u on u.id=cu.user_id",
+            "inner join chat.user u on u.id=m.from_user_id",
             "where m.id={0}",
             "group by m.id order by send_date asc"
         ].join(' '), result[0].insertId);
@@ -49,9 +49,8 @@ function getMessagesByChatroom(chatroomId) {
     var sql = format([
         "select m.id, m.content, m.send_date, m.from_user_id, u.avatar from_user_avatar, u.nickname from_user_nickname",
         "from chat.message m",
-        "inner join chat.chatroom_user cu on m.chatroom_id=cu.chatroom_id",
-        "inner join chat.user u on u.id=cu.user_id",
-        "where cu.chatroom_id={0}",
+        "inner join chat.user u on u.id=m.from_user_id",
+        "where m.chatroom_id={0}",
         "group by m.id order by send_date asc"
     ].join(' '), chatroomId);
 
