@@ -18,10 +18,30 @@ function parse(messageData) {
         messageData.chatroomId,
         messageData.content,
         messageData.datetime
-    ).then(function() {
-        return chatroomService.findMemberIds(chatroomId);
+    ).then(function(result) {
+        var sql = format([
+            "select m.id, m.from_user_id,",
+                "u.avatar from_user_avatar, u.nickname from_user_nickname,",
+                "group_concat(cast(u.id as char)) user_ids",
+            "from chat.message m",
+            "inner join chat.chatroom_user cu on m.chatroom_id=cu.chatroom_id",
+            "inner join chat.user u on u.id=cu.user_id",
+            "where m.id={0}",
+            "group by m.id order by send_date asc"
+        ].join(' '), result[0].insertId);
+        return db.executeSql(sql);
     }).then(function(result) {
-        return {userIds: result[0], chatroomId: chatroomId};
+        return {
+            userIds: result[0][0].user_ids.split(',').map(function(id) {return parseInt(id);}),
+            chatroomId: messageData.chatroomId,
+            content: messageData.content,
+            send_date: messageData.datetime,
+            from_user_id: result[0][0].from_user_id,
+            from_user_avatar: result[0][0].from_user_avatar,
+            from_user_nickname: result[0][0].from_user_nickname
+        };
+    }).catch(function(e) {
+        console.log(e.stack);
     });
 }
 

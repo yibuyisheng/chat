@@ -3,6 +3,7 @@ require([
         'js/module/message-middleware',
         'js/common/url',
         'js/common/directives',
+        'js/common/services',
         'bootstrap',
         'angular'
     ],
@@ -11,12 +12,14 @@ require([
         messageMiddleware,
         url
     ) {
-        angular.module('index', ['directivesModule']).controller('IndexController', [
+        angular.module('index', ['directivesModule', 'servicesModule']).controller('IndexController', [
             '$scope',
             '$http',
+            'safeApply',
             function(
                 $scope,
-                $http
+                $http,
+                safeApply
             ) {
                 $scope.user = page.user;
 
@@ -26,7 +29,7 @@ require([
                 });
 
                 // socket连接
-                var socket = io();
+                var socket = io('/?token=' + $scope.user.token);
                 socket.on('connect', function(message) {
                     $scope.send = function() {
                         var msg = messageMiddleware.setMessage($scope.message).go().getMessage();
@@ -39,7 +42,11 @@ require([
                     };
 
                     socket.on('chat message', function(message) {
-                        console.log('chat message from server', message);
+                        var data = $.parseJSON(message);
+                        safeApply($scope, function() {
+                            $scope.messages.push(data);
+                        });
+                        // console.log('chat message from server', message);
                     });
 
                     socket.on('chat error', function(message) {

@@ -36,7 +36,6 @@ api.get('/index', function * () {
 }).get('/get-messages-ajax', function * () {
     try {
         yield userService.validateToken(this.request.query.token);
-        console.log('----------');
         var messages = yield messageService.getMessagesByChatroom(this.request.query.chatroom_id);
         this.response.body = JSON.stringify(messages);
         this.response.set('Content-Type', 'text/plain');
@@ -60,35 +59,37 @@ var io = socketio(server);
 
 var sockets = {};
 io.on('connection', function(socket) {
-    socket.on('chat message', function(message) {
-        createMiddleware().use(function * (next) {
-            this.messageData = JSON.parse(this.message);
-            yield next;
-        }).use(function * (next) {
-            var user = yield userService.validateToken(this.messageData.token);
-            socket.userId = user.id;
-            sockets[user.id] = socket;
+    var token = socket.handshake.query.token;
+    userService.validateToken(token).then(function(user) {
+        socket.userId = user.id;
+        sockets[user.id] = socket;
 
-            this.messageData.fromUserId = user.id;
-            this.messageParse = yield messageService.parse(this.messageData);
-            yield next;
-        }).use(function * (next) {
-            var _this = this;
-            this.messageParse.userIds.forEach(function(userId) {
-                if (!sockets[userId]) return;
-                sockets[userId].emit('chat message', JSON.stringify({
-                    content: _this.messageParse.content,
-                    chatroomId: _this.messageParse.chatroomId
-                }));
+        socket.on('chat message', function(message) {
+            createMiddleware().use(function * (next) {
+                this.messageData = JSON.parse(this.message);
+                yield next;
+            }).use(function * (next) {
+                this.messageData.fromUserId = socket.userId;
+                this.messageParse = yield messageService.parse(this.messageData);
+                yield next;
+            }).use(function * (next) {
+                var _this = this;
+                this.messageParse.userIds.forEach(function(userId) {
+                    if (!sockets[userId]) return;
+                    sockets[userId].emit('chat message', JSON.stringify(_this.messageParse));
+                });
+
+                yield next;
+            }).use(function * () {
+                // socket.emit('chat message', '消息通过检测');
+            }).go({message: message}).catch(function(error) {
+                console.log(error.stack);
+                socket.emit('chat error', '消息错误：' + error.toString());
             });
-
-            yield next;
-        }).use(function * () {
-            socket.emit('chat message', '消息通过检测');
-        }).go({message: message}).catch(function(error) {
-            console.log(error.stack);
-            socket.emit('chat error', '消息错误：' + error.toString());
         });
+    }).catch(function(e) {
+        console.log(e.stack);
+        socket.disconnect();
     });
 
     socket.on('disconnect', function() {

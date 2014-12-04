@@ -24,18 +24,6 @@ block content
                     div.message-content.clearfix
                         div(ng-bind="message.content")
 
-                //- div.left
-                //-     div.clearfix
-                //-         img.head(src="http://placehold.it/30x30")
-                //-         |张三
-                //-     div.message-content.clearfix
-                //-         div 哈哈，你个傻子
-                //- div.right
-                //-     div.clearfix(style="text-align:right")
-                //-         img.head(src="http://placehold.it/30x30")
-                //-         |李四
-                //-     div.message-content.clearfix
-                //-         div 我靠，你才是傻子
             div.tool-box.clearfix
                 button.send.pull-right(ng-click="send()") 发送
             div.chat-editor(contenteditable="true", ng-model="message")
