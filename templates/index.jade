@@ -10,16 +10,12 @@ block content
                     button.btn.btn-default.navbar-btn(ng-click="showContact=!showContact") 联系人
                 div.collapse.navbar-collapse
                     ul.nav.navbar-nav(style="margin-left:5px")
-                        li(ng-repeat="room in rooms", ng-class="room.id==activeRoom.id?'active':''")
-                            a(href="javascript:;", ng-bind="room.name")
-                        //- li.active
-                        //-     a(href="#") 第一个群
-                        //- li
-                        //-     a(href="#") 与张三的聊天
+                        li(ng-repeat="room in rooms", ng-class="room.active?'active':''")
+                            a(href="javascript:;", ng-bind="room.name", ng-click="changeRoom(room)")
 
         div.chat-box
             div.messages
-                div(ng-repeat="message in messages", ng-class="message.from_user_id==user.id?'right':'left'")
+                div(ng-repeat="message in messages[activeRoom.id]", ng-class="message.from_user_id==user.id?'right':'left'")
                     div.clearfix
                         img.head(ng-src="{{ message.from_user_avatar }}")
                         span(ng-bind="message.from_user_nickname")
@@ -37,9 +33,9 @@ block content
 block javascript
     script.
         var page = {
+            token: '#{token}',
             user: {
                 id: '#{user.id}',
-                token: '#{user.token}',
                 name: '#{user.name}',
                 nickname: '#{user.nickname}',
                 email: '#{user.email}'

@@ -1,14 +1,6 @@
 var db = require('../db/database.js');
 var format = require('nodejs-lib').format;
-
-function validateToken(token) {
-    // 暂时将token当成userId
-    return db.executeSql('select * from chat.user where id=' + token).then(function(result) {
-        var user = result[0][0];
-        user.token = user.id;
-        return user;
-    });
-}
+var jwt = require('./jwt.js');
 
 function login(name, password) {
     var sql = format("select * from chat.user where nickname='{0}' or email='{1}'", name, name);
@@ -18,16 +10,14 @@ function login(name, password) {
         }
         return result[0][0];
     }).then(function(user) {
-        console.log(user.password, password);
         if (user.password !== password) {
             throw new Error('用户名或密码错误');
         }
-        user.token = user.id;
+        user.token = jwt.encode(user);
         return user;
     });
 }
 
 module.exports = {
-    validateToken: validateToken,
     login: login
 };

@@ -22,26 +22,38 @@ require([
                 safeApply
             ) {
                 $scope.user = page.user;
+                $scope.token = page.token;
+                $scope.messages = {};
 
-                // 初始化获取消息
-                $http.get('/get-messages-ajax?chatroom_id=1&token=' + $scope.user.token).then(function(result) {
-                    $scope.messages = result.data;
-                });
+                // 获取消息
+                function getMessages(chatroomId) {
+                    $http.get('/get-messages-ajax?chatroom_id=' + chatroomId + '&token=' + $scope.token).then(function(result) {
+                        $scope.messages[chatroomId] = result.data;
+                    });
+                }
+
                 // 初始化聊天室
-                $http.get('/chatroom-ajax?token=' + $scope.user.token).then(function(result) {
+                $http.get('/chatroom-ajax?token=' + $scope.token).then(function(result) {
                     $scope.rooms = result.data;
-                    $scope.activeRoom = $scope.rooms[0];
+                    $scope.changeRoom($scope.rooms[0]);
                 });
+                $scope.changeRoom = function(room) {
+                    $scope.activeRoom = room;
+                    $scope.rooms.forEach(function(room) {
+                        room.active = $scope.activeRoom.id === room.id;
+                    });
+                    getMessages(room.id);
+                };
 
                 // socket连接
-                var socket = io('/?token=' + $scope.user.token);
+                var socket = io('/?token=' + $scope.token);
                 socket.on('connect', function(message) {
                     $scope.send = function() {
                         var msg = messageMiddleware.setMessage($scope.message).go().getMessage();
                         socket.emit('chat message', JSON.stringify({
                             content: msg,
                             datetime: new Date().getTime(),
-                            token: $scope.user.token,
+                            token: $scope.token,
                             chatroomId: $scope.activeRoom.id
                         }));
                     };
@@ -49,7 +61,8 @@ require([
                     socket.on('chat message', function(message) {
                         var data = $.parseJSON(message);
                         safeApply($scope, function() {
-                            $scope.messages.push(data);
+                            $scope.messages[data.chatroomId] = $scope.messages[data.chatroomId] || [];
+                            $scope.messages[data.chatroomId].push(data);
                         });
                     });
 

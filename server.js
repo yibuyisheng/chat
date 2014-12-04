@@ -7,19 +7,25 @@ var serve = require('koa-static');
 var userService = require('./service/user.js');
 var messageService = require('./service/message.js');
 var createMiddleware = require('./common/middleware.js');
-var parse = require('co-body');
 var api = require('./router.js');
+var jwt = require('./service/jwt.js');
 
 var app = koa();
 
-app.use(
+app.use(jwt.koaJwt).use(
     jade.middleware({
         viewPath: 'templates',
         debug: true,
         pretty: false,
         compileDebug: false
     })
-).use(mount('/', api.middleware())).use(mount('/static', serve('static')));
+).use(
+    mount('/', api.middleware())
+).use(
+    mount('/static', serve('static'))
+).on('error', function(error, context) {
+    console.log(error);
+});
 
 var server = http.createServer(app.callback());
 var io = socketio(server);
@@ -27,7 +33,8 @@ var io = socketio(server);
 var sockets = {};
 io.on('connection', function(socket) {
     var token = socket.handshake.query.token;
-    userService.validateToken(token).then(function(user) {
+    try {
+        var user = jwt.decode(token);
         socket.userId = user.id;
         sockets[user.id] = socket;
 
@@ -39,25 +46,21 @@ io.on('connection', function(socket) {
                 this.messageData.fromUserId = socket.userId;
                 this.messageParse = yield messageService.parse(this.messageData);
                 yield next;
-            }).use(function * (next) {
+            }).use(function * () {
                 var _this = this;
                 this.messageParse.userIds.forEach(function(userId) {
                     if (!sockets[userId]) return;
                     sockets[userId].emit('chat message', JSON.stringify(_this.messageParse));
                 });
-
-                yield next;
-            }).use(function * () {
-                // socket.emit('chat message', '消息通过检测');
             }).go({message: message}).catch(function(error) {
                 console.log(error.stack);
                 socket.emit('chat error', '消息错误：' + error.toString());
             });
         });
-    }).catch(function(e) {
+    } catch (e) {
         console.log(e.stack);
         socket.disconnect();
-    });
+    }
 
     socket.on('disconnect', function() {
         sockets[socket.userId] = null;
