@@ -77,6 +77,26 @@ api.get('/registe', function * () {
         this.throw(403, '错误：' + e.message);
     }
 
+}).get('/search-friends-ajax', function * () {
+
+    try {
+        var friends = yield userService.searchFriends(this.request.query.keyword);
+        this.response.body = JSON.stringify(friends);
+        this.response.set('Content-Type', 'text/plain');
+    } catch (e) {
+        this.throw(403, '错误：' + e.message);
+    }
+
+}).get('/search-rooms-ajax', function * () {
+
+    try {
+        var rooms = yield chatroomService.searchRooms(this.request.query.keyword);
+        this.response.body = JSON.stringify(rooms);
+        this.response.set('Content-Type', 'text/plain');
+    } catch (e) {
+        this.throw(403, '错误：' + e.message);
+    }
+
 });
 
 module.exports = api;

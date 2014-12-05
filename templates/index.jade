@@ -11,7 +11,11 @@ block content
                 div.collapse.navbar-collapse
                     ul.nav.navbar-nav(style="margin-left:5px")
                         li(ng-repeat="room in rooms", ng-class="room.active?'active':''")
-                            a(href="javascript:;", ng-bind="room.name", ng-click="changeRoom(room)")
+                            a(ng-bind="room.name", ng-click="changeRoom(room)")
+                    p.navbar-text.navbar-right 欢迎您，
+                        span #{user.nickname}
+                        a(style="margin-left:10px", ng-click="showSearchFriends=true")
+                            img(height="20", src="http://placehold.it/30x30")
 
         div.chat-box
             div.messages
@@ -28,6 +32,7 @@ block content
                 | 内容可编辑
 
         contact(ng-show="showContact", token="token")
+        search-friends(ng-show="showSearchFriends", show="showSearchFriends", token="token")
 
 block javascript
     script.

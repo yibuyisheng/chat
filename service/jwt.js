@@ -1,7 +1,7 @@
 var jwt = require('jwt-simple');
 
 var secret = 'chat';
-var userValidatePaths = ['/index', '/get-messages-ajax', '/chatroom-ajax', '/find-friends-ajax'];
+var userValidatePaths = ['/index', '/get-messages-ajax', '/chatroom-ajax', '/find-friends-ajax', '/search-friends-ajax'];
 function decode(token) {
     return jwt.decode(token, secret);
 }

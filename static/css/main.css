@@ -17,12 +17,18 @@ a {
   padding: 5px;
   width: 100%;
   height: 100%;
+  overflow-y: auto;
+  background: white;
 }
 .contact img {
   padding: 0 5px;
 }
 .contact .tab-pane p:first-child {
   margin-top: 5px;
+}
+.contact .tab-content {
+  min-height: 100px;
+  overflow-y: auto;
 }
 .chat-box {
   position: absolute;

@@ -65,7 +65,13 @@ function findFriends(userId) {
             "(u.id=f.user_id_driving and f.user_id_passive={0})",
             "or (u.id=f.user_id_passive and f.user_id_driving={0})"
     ].join(' '), userId);
-    console.log('---------------', sql);
+    return db.executeSql(sql).then(function(result) {
+        return result[0];
+    });
+}
+
+function searchFriends(nickname) {
+    var sql = format("select * from chat.user where nickname like '%{0}%'", nickname);
     return db.executeSql(sql).then(function(result) {
         return result[0];
     });
@@ -74,5 +80,6 @@ function findFriends(userId) {
 module.exports = {
     login: login,
     registe: registe,
-    findFriends: findFriends
+    findFriends: findFriends,
+    searchFriends: searchFriends
 };

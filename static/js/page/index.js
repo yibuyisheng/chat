@@ -6,7 +6,8 @@ require([
         'js/common/services',
         'bootstrap',
         'angular',
-        'js/module/contact'
+        'js/module/contact',
+        'js/module/search-friends'
     ],
     function(
         io,

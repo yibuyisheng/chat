@@ -17,7 +17,15 @@ function findRoomsByUser(userId) {
     });
 }
 
+function searchRooms(name) {
+    var sql = format("select * from chat.chatroom where name like '%{0}%'", name);
+    return db.executeSql(sql).then(function(result) {
+        return result[0];
+    });
+}
+
 module.exports = {
     findMemberIds: findMemberIds,
-    findRoomsByUser: findRoomsByUser
+    findRoomsByUser: findRoomsByUser,
+    searchRooms: searchRooms
 };
