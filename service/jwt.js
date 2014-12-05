@@ -20,7 +20,7 @@ function * koaJwt(next) {
             this.token = this.request.query.token;
             yield next;
         } catch (e) {
-            this.throw(403);
+            this.throw(403, '请登录');
         }
     }
 

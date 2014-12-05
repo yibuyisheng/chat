@@ -1,3 +1,14 @@
+html,
+body {
+  height: 100%;
+}
+.alert {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
 .contact {
   border: 1px solid #ddd;
   padding: 5px;
@@ -5,7 +16,21 @@
 .contact img {
   padding: 0 5px;
 }
+.chat-box {
+  position: absolute;
+  top: 72px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+}
 .chat-box .messages {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 121px;
+  overflow-y: auto;
   border: 1px solid #ddd;
   padding: 10px;
   background: #ffffcc;
@@ -47,9 +72,19 @@
   float: left;
 }
 .chat-box .tool-box {
-  margin-top: 20px;
+  position: absolute;
+  height: 25px;
+  bottom: 96px;
+  left: 0;
+  right: 0;
 }
 .chat-box .chat-editor {
+  position: absolute;
+  height: 96px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
   border: 1px solid #ddd;
   padding: 5px;
 }

@@ -1,5 +1,21 @@
+@chatEditorHeight: 96px;
+@toolBoxHeight: 25px;
+
 .chat-box {
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+
     .messages{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: @chatEditorHeight + @toolBoxHeight;
+        overflow-y: auto;
         border: 1px solid #ddd;
         padding: 10px;
         background: lighten(yellow, 40%);
@@ -47,12 +63,22 @@
     }
 
     .tool-box {
-        margin-top: 20px;
+        position: absolute;
+        height: @toolBoxHeight;
+        bottom: @chatEditorHeight;
+        left: 0;
+        right: 0;
     }
     .chat-editor {
+        position: absolute;
+        height: @chatEditorHeight;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: auto;
+
         border: 1px solid #ddd;
         padding: 5px;
-
         &:focus {
             outline: none;
         }

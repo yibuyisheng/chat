@@ -24,7 +24,7 @@ app.use(jwt.koaJwt).use(
 ).use(
     mount('/static', serve('static'))
 ).on('error', function(error, context) {
-    console.log(error);
+    console.log(error.stack);
 });
 
 var server = http.createServer(app.callback());

@@ -8,14 +8,29 @@ var parse = require('co-body');
 
 var api = new Router();
 
-api.get('/login', function * () {
+api.get('/registe', function * () {
 
-    yield this.render('login', {});
+    yield this.render('registe');
+
+}).post('/registe-ajax', function * () {
+
+    try {
+        var data = yield parse.json(this.request);
+        yield userService.registe(data);
+        this.response.body = JSON.stringify(data);
+        this.response.set('Content-Type', 'text/plain');
+    } catch (e) {
+        this.throw(406, '错误：' + e.message);
+    }
+
+}).get('/login', function * () {
+
+    yield this.render('login');
 
 }).post('/login-ajax', function * () {
 
-    var data = yield parse.json(this.request);
     try {
+        var data = yield parse.json(this.request);
         var user = yield userService.login(data.name, data.password);
         this.response.body = JSON.stringify(user);
         this.response.set('Content-Type', 'text/plain');
