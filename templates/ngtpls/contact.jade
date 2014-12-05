@@ -1,0 +1,16 @@
+div.contact(ng-init="showTab=[1]")
+    ul.nav.nav-tabs(role="tablist")
+        li(ng-class="showTab[0]?'active':''")
+            a(ng-click="showTab=[];showTab[0]=1") 常用联系人
+        li(ng-class="showTab[1]?'active':''")
+            a(ng-click="showTab=[];showTab[1]=1") 联系人
+    div.tab-content
+        div.tab-pane(ng-class="showTab[0]?'active':''")
+            p(ng-repeat="friend in friends")
+                img(ng-src="{{ friend.avatar }}")
+                span.list-group-item-text(ng-bind="friend.nickname")
+
+        div.tab-pane(ng-class="showTab[1]?'active':''")
+            p(ng-repeat="friend in friends")
+                img(ng-src="{{ friend.avatar }}")
+                span.list-group-item-text(ng-bind="friend.nickname")

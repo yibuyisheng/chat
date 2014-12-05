@@ -3,7 +3,7 @@ extends ./layout.jade
 block head
     title chat
 block content
-    div(ng-controller="IndexController")
+    div.page-index(ng-controller="IndexController")
         nav.navbar.navbar-default(role="navigation")
             div.container-fluid
                 div.navbar-header
@@ -27,8 +27,7 @@ block content
             div.chat-editor(contenteditable="true", ng-model="message")
                 | 内容可编辑
 
-        div(ng-show="showContact")
-            include ./contact.jade
+        contact(ng-show="showContact", token="token")
 
 block javascript
     script.

@@ -8,7 +8,7 @@ module.exports = function(grunt) {
                 script: cfg.main,
                 options: {
                     harmony: true,
-                    debug: true,
+                    // debug: true,
                     watch: [
                         'server.js',
                         'templates',

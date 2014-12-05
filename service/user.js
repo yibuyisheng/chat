@@ -52,12 +52,27 @@ function registe(user) {
         "insert into chat.user(name, nickname, password, email, avatar)",
         "values('{0}', '{1}', '{2}', '{3}', '{4}')"
     ].join(' '), user.name, user.nickname, user.password, user.email, user.avatar);
-    return db.executeSql(sql, function(result) {
+    return db.executeSql(sql).then(function(result) {
         return user;
+    });
+}
+
+function findFriends(userId) {
+    var sql = format([
+        "select u.* ",
+        "from chat.user u ",
+        "inner join chat.friend f on ",
+            "(u.id=f.user_id_driving and f.user_id_passive={0})",
+            "or (u.id=f.user_id_passive and f.user_id_driving={0})"
+    ].join(' '), userId);
+    console.log('---------------', sql);
+    return db.executeSql(sql).then(function(result) {
+        return result[0];
     });
 }
 
 module.exports = {
     login: login,
-    registe: registe
+    registe: registe,
+    findFriends: findFriends
 };

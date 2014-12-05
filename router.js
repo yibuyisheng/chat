@@ -5,6 +5,7 @@ var userService = require('./service/user.js');
 var messageService = require('./service/message.js');
 var chatroomService = require('./service/chatroom.js');
 var parse = require('co-body');
+var path = require('path');
 
 var api = new Router();
 
@@ -38,6 +39,10 @@ api.get('/registe', function * () {
         this.throw(406, '错误：' + e.message);
     }
 
+}).get('/ngtpls/:tpl', function * () {
+
+    yield this.render(path.join('ngtpls', this.params.tpl + '.jade'));
+
 }).get('/index', function * () {
 
     yield this.render('index', {user: this.user, token: this.token});
@@ -57,6 +62,16 @@ api.get('/registe', function * () {
     try {
         var rooms = yield chatroomService.findRoomsByUser(this.user.id);
         this.response.body = JSON.stringify(rooms);
+        this.response.set('Content-Type', 'text/plain');
+    } catch (e) {
+        this.throw(403, '错误：' + e.message);
+    }
+
+}).get('/find-friends-ajax', function * () {
+
+    try {
+        var friends = yield userService.findFriends(this.user.id);
+        this.response.body = JSON.stringify(friends);
         this.response.set('Content-Type', 'text/plain');
     } catch (e) {
         this.throw(403, '错误：' + e.message);

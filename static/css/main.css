@@ -2,6 +2,9 @@ html,
 body {
   height: 100%;
 }
+a {
+  cursor: pointer;
+}
 .alert {
   position: fixed;
   top: 0;
@@ -12,9 +15,14 @@ body {
 .contact {
   border: 1px solid #ddd;
   padding: 5px;
+  width: 100%;
+  height: 100%;
 }
 .contact img {
   padding: 0 5px;
+}
+.contact .tab-pane p:first-child {
+  margin-top: 5px;
 }
 .chat-box {
   position: absolute;
@@ -90,4 +98,11 @@ body {
 }
 .chat-box .chat-editor:focus {
   outline: none;
+}
+.page-index contact {
+  position: absolute;
+  top: 72px;
+  width: 300px;
+  bottom: 121px;
+  left: 0;
 }

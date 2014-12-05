@@ -5,14 +5,15 @@ require([
         'js/common/directives',
         'js/common/services',
         'bootstrap',
-        'angular'
+        'angular',
+        'js/module/contact'
     ],
     function(
         io,
         messageMiddleware,
         url
     ) {
-        angular.module('index', ['directivesModule', 'servicesModule']).controller('IndexController', [
+        angular.module('index', ['directivesModule', 'servicesModule', 'moduleModule']).controller('IndexController', [
             '$scope',
             '$http',
             'safeApply',
