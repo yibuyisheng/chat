@@ -31,9 +31,3 @@ CREATE TABLE `chat`.`chatroom_user` (
   `user_id` INT(11) NULL,
   PRIMARY KEY (`id`));
 
-CREATE TABLE `chat`.`friend` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `user_id_driving` INT(11) NULL,                 # 主动发起添加好友的
-  `user_id_passive` INT(11) NULL,                 # 被动接受好友请求的
-  PRIMARY KEY (`id`));
-

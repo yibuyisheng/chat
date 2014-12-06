@@ -64,11 +64,10 @@ function registe(user) {
 
 function findFriends(userId) {
     var sql = format([
-        "select u.* ",
-        "from chat.user u ",
-        "inner join chat.friend f on ",
-            "(u.id=f.user_id_driving and f.user_id_passive={0})",
-            "or (u.id=f.user_id_passive and f.user_id_driving={0})"
+        "select u.* from chat.chatroom_user cu",
+        "inner join chat.chatroom_user cu2 on cu.user_id={0} and cu2.chatroom_id=cu.chatroom_id",
+        "inner join chat.chatroom cr on cr.id=cu2.chatroom_id and cr.type=1",
+        "inner join chat.user u on u.id=cu2.user_id and u.id!={0}"
     ].join(' '), userId);
     return db.executeSql(sql).then(function(result) {
         return result[0];
