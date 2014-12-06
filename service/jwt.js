@@ -1,7 +1,16 @@
 var jwt = require('jwt-simple');
+var parse = require('co-body');
 
 var secret = 'chat';
-var userValidatePaths = ['/index', '/get-messages-ajax', '/chatroom-ajax', '/find-friends-ajax', '/search-friends-ajax'];
+var userValidatePaths = [
+    '/index',
+    '/get-messages-ajax',
+    '/chatroom-ajax',
+    '/find-friends-ajax',
+    '/search-friends-ajax',
+    '/search-rooms-ajax',
+    '/add-friend'
+];
 function decode(token) {
     return jwt.decode(token, secret);
 }
@@ -16,8 +25,9 @@ function * koaJwt(next) {
     });
     if (has) {
         try {
-            this.user = decode(this.request.query.token);
-            this.token = this.request.query.token;
+            var token = this.request.query.token;
+            this.user = decode(token);
+            this.token = token;
             yield next;
         } catch (e) {
             this.throw(403, '请登录');

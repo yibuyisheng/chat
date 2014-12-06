@@ -81,9 +81,21 @@ function searchFriends(nickname) {
     });
 }
 
+function addFriend(selfId, friendId) {
+    return db.executeTransaction(function(execute) {
+        var sql = format("insert into chat.chatroom(name, type) values('', {0})", 1);
+        return execute(sql).then(function(result) {
+            var insertId = result[0].insertId;
+            sql = format("insert into chat.chatroom_user(user_id, chatroom_id) values({0}, {1}),({2}, {1})", selfId, insertId, friendId);
+            return execute(sql);
+        });
+    });
+}
+
 module.exports = {
     login: login,
     registe: registe,
     findFriends: findFriends,
-    searchFriends: searchFriends
+    searchFriends: searchFriends,
+    addFriend: addFriend
 };

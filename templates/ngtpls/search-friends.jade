@@ -21,7 +21,7 @@ div.model.search-friends
                     li.list-group-item(style="position:relative", ng-repeat="friend in friends")
                         div(style="margin-right:50px", ng-bind="friend.nickname")
                         div(style="position:absolute;top:0;right:3px;height:40px;line-height:40px;")
-                            a 添加好友
+                            a(ng-click="addFriend(friend)") 添加好友
                 ul.list-group(ng-if="actionType==1")
                     li.list-group-item(ng-repeat="room in rooms", ng-bind="room.name")
             div.modal-footer

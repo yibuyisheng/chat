@@ -98,6 +98,18 @@ api.get('/registe', function * () {
         this.throw(403, '错误：' + e.message);
     }
 
+}).post('/add-friend', function * () {
+
+    try {
+        var data = yield parse.json(this.request);
+        yield userService.addFriend(this.user.id, data.friend_id);
+        this.response.body = '';
+        this.response.set('Content-Type', 'text/plain');
+    } catch (e) {
+        console.log(e.stack);
+        this.throw(403, '错误：' + e.message);
+    }
+
 });
 
 module.exports = api;

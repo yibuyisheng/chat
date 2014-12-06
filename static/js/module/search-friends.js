@@ -10,7 +10,7 @@ define(['js/module/module-helper', 'js/common/utils', 'angular'], function(helpe
         ) {
             return {
                 restrict: 'E',
-                scope: {show: '=', alreadyFriends: '=', alreadyRooms: '=', self: '=', token: "="},
+                scope: {show: '=', alreadyFriends: '=', alreadyRooms: '=', self: '=', token: "=", friendsChange: "&"},
                 templateUrl: '/ngtpls/search-friends',
                 link: function(scope, element, attrs) {
                     scope.search = function() {
@@ -37,6 +37,16 @@ define(['js/module/module-helper', 'js/common/utils', 'angular'], function(helpe
                             }
                             scope[actionType === 0 ? 'friends' : 'rooms'] = result.data;
                         }, null, scope.actionType));
+                    };
+
+                    scope.addFriend = function(friend) {
+                        $http.post('/add-friend?token=' + scope.token, {friend_id: friend.id}).then(function() {
+                            scope.friendsChange instanceof Function && scope.friendsChange();
+                            scope.friends = utils.filter(scope.friends, function(item) {
+                                return item.id !== friend.id;
+                            });
+                            alert('添加成功');
+                        });
                     };
                 }
             };

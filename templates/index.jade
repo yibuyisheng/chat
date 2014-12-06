@@ -32,7 +32,7 @@ block content
                 | 内容可编辑
 
         contact(ng-show="showContact", friends="friends")
-        search-friends(ng-show="showSearchFriends", token="token", show="showSearchFriends", already-friends="friends", already-rooms="rooms", self="user")
+        search-friends(ng-show="showSearchFriends", token="token", show="showSearchFriends", already-friends="friends", already-rooms="rooms", self="user", friends-change="getFriends()")
 
 block javascript
     script.
