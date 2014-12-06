@@ -72,6 +72,11 @@ require([
                         console.log(message);
                     });
                 });
+
+                // 好友列表
+                $http.get('/find-friends-ajax?token=' + $scope.token).then(function(result) {
+                    $scope.friends = result.data;
+                });
             }
         ]);
 

@@ -31,8 +31,8 @@ block content
             div.chat-editor(contenteditable="true", ng-model="message")
                 | 内容可编辑
 
-        contact(ng-show="showContact", token="token")
-        search-friends(ng-show="showSearchFriends", show="showSearchFriends", token="token")
+        contact(ng-show="showContact", friends="friends")
+        search-friends(ng-show="showSearchFriends", token="token", show="showSearchFriends", already-friends="friends", already-rooms="rooms", self="user")
 
 block javascript
     script.

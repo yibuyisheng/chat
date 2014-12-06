@@ -2,7 +2,7 @@
  * 查找并添加好友
  */
 
-define(['js/module/helper', 'angular'], function(helper) {
+define(['js/module/module-helper', 'js/common/utils', 'angular'], function(helper, utils) {
     helper.getModule('moduleModule').directive('searchFriends', [
         '$http',
         function(
@@ -10,19 +10,33 @@ define(['js/module/helper', 'angular'], function(helper) {
         ) {
             return {
                 restrict: 'E',
-                scope: {show: '=show', token: '=token'},
+                scope: {show: '=', alreadyFriends: '=', alreadyRooms: '=', self: '=', token: "="},
                 templateUrl: '/ngtpls/search-friends',
                 link: function(scope, element, attrs) {
                     scope.search = function() {
+                        var keyword = scope.keyword || '';
+                        var url;
                         if (scope.actionType === 0) {
-                            $http.get('/search-friends-ajax?token=' + scope.token + '&keyword=' + scope.keyword).then(function(result) {
-                                scope.friends = result.data;
-                            });
+                            url = '/search-friends-ajax?token=' + scope.token + '&keyword=' + keyword;
                         } else {
-                            $http.get('/search-rooms-ajax?token=' + scope.token + '&keyword=' + scope.keyword).then(function(result) {
-                                scope.rooms = result.data;
-                            });
+                            url = '/search-rooms-ajax?token=' + scope.token + '&keyword=' + keyword;
                         }
+                        $http.get(url).then(utils.bind(function(actionType, result) {
+                            if (actionType === 0) {
+                                result.data = utils.filter(result.data, function(item) {
+                                    return item.nickname !== scope.self.nickname && !utils.some(scope.alreadyFriends, function(friend) {
+                                        return item.nickname === friend.nickname;
+                                    });
+                                });
+                            } else {
+                                result.data = utils.filter(result.data, function(item) {
+                                    return !utils.some(scope.alreadyRooms, function(room) {
+                                        return item.name === room.name;
+                                    });
+                                });
+                            }
+                            scope[actionType === 0 ? 'friends' : 'rooms'] = result.data;
+                        }, null, scope.actionType));
                     };
                 }
             };
