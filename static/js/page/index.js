@@ -40,6 +40,7 @@ require([
                     $scope.changeRoom($scope.rooms[0]);
                 });
                 $scope.changeRoom = function(room) {
+                    if (!room) return;
                     $scope.activeRoom = room;
                     $scope.rooms.forEach(function(room) {
                         room.active = $scope.activeRoom.id === room.id;

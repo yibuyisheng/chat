@@ -21,6 +21,7 @@ api.get('/registe', function * () {
         this.response.body = JSON.stringify(data);
         this.response.set('Content-Type', 'text/plain');
     } catch (e) {
+        console.log(e.stack);
         this.throw(406, '错误：' + e.message);
     }
 

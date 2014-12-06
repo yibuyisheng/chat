@@ -32,12 +32,12 @@ function validateNickname(nickname) {
     }
 }
 function validatePassword(password) {
-    if (!password || !passwordRegExp.test(nickname)) {
+    if (!password || !passwordRegExp.test(password)) {
         throw new Error('密码只能由字母或数字组成，长度是6到20个字符。');
     }
 }
 function validateEmail(email) {
-    if (!email || !emailRegExp.test(nickname)) {
+    if (!email || !emailRegExp.test(email)) {
         throw new Error('邮箱格式不正确。');
     }
 }
@@ -53,6 +53,11 @@ function registe(user) {
         "values('{0}', '{1}', '{2}', '{3}', '{4}')"
     ].join(' '), user.name, user.nickname, user.password, user.email, user.avatar);
     return db.executeSql(sql).then(function(result) {
+        var sql = "select * from chat.user where id=" + result.insertId;
+        return db.executeSql(sql);
+    }).then(function(result) {
+        var user = result[0][0];
+        user.token = jwt.encode(user);
         return user;
     });
 }

@@ -21,7 +21,7 @@ require([
                         return;
                     }
                     $http.post('/registe-ajax', $scope.user).then(function(result) {
-                        console.log(result);
+                        window.location.href = '/index?token' + result.data.token;
                     }).catch(function(error) {
                         $scope.alert = {
                             show: true,

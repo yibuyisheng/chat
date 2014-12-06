@@ -14,6 +14,7 @@ CREATE TABLE `chat`.`user` (
 CREATE TABLE `chat`.`chatroom` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
+  `type` TINYINT NULL,                           # type=1：只有两人的好友关系房间；type=2：群
   PRIMARY KEY (`id`));
 
 CREATE TABLE `chat`.`message` (

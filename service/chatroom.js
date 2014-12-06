@@ -18,7 +18,7 @@ function findRoomsByUser(userId) {
 }
 
 function searchRooms(name) {
-    var sql = format("select * from chat.chatroom where name like '%{0}%'", name);
+    var sql = format("select * from chat.chatroom where name like '%{0}%' and type=2", name);
     return db.executeSql(sql).then(function(result) {
         return result[0];
     });
