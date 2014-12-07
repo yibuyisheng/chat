@@ -8,7 +8,7 @@ block content
             div
                 button.btn.btn-default.navbar-btn(hammer-tap="showContact=!showContact") 联系人
             div
-                a(ng-repeat="room in rooms", ng-bind="room.name", hammer-tap="changeRoom(room)", ng-class="room.active?'active':''")
+                a(ng-repeat="room in rooms", ng-bind="room.name", hammer-tap="changeRoom(room)", ng-class="room==activeRoom?'active':''")
             div
                 | 欢迎您，
                 span #{user.nickname}

@@ -46,6 +46,10 @@ require([
                     }
                     if (newValue) {
                         $scope.rooms.push(newValue);
+
+                        $http.get('/get-messages-ajax?token=' + $scope.token + '&chatroom_id=' + newValue.id).then(function(result) {
+                            $scope.messages[newValue.id] = result.data;
+                        });
                     }
                     $scope.rooms = utils.distinctArray($scope.rooms, function(room) {
                         return room.id;
@@ -86,6 +90,10 @@ require([
                 }
                 getFriends();
                 $scope.getFriends = getFriends;
+
+                $scope.changeRoom = function(room) {
+                    $scope.activeRoom = room;
+                };
             }
         ]);
 
