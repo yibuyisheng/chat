@@ -9,7 +9,8 @@ var userValidatePaths = [
     '/find-friends-ajax',
     '/search-friends-ajax',
     '/search-rooms-ajax',
-    '/add-friend'
+    '/add-friend',
+    '/get-room-ajax'
 ];
 function decode(token) {
     return jwt.decode(token, secret);

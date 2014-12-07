@@ -6,7 +6,7 @@ var config = {
         bootstrap: 'lib/bootstrap-3.3.1/js/bootstrap.min',
         angular: 'lib/angular/angular',
         socketio: '/socket.io/socket.io.js',
-        hammer: 'lib/hammer/hammer.min.js'
+        hammer: 'lib/hammer/hammer'
     },
     shim: {
         bootstrap: {

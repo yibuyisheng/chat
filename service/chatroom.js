@@ -24,8 +24,19 @@ function searchRooms(name) {
     });
 }
 
+function getRoomById(roomId) {
+    var sql = "select * from chat.chatroom where id=" + roomId;
+    return db.executeSql(sql).then(function(result) {
+        if (result[0].length !== 1) {
+            throw new Error('不存在');
+        }
+        return result[0][0];
+    });
+}
+
 module.exports = {
     findMemberIds: findMemberIds,
     findRoomsByUser: findRoomsByUser,
-    searchRooms: searchRooms
+    searchRooms: searchRooms,
+    getRoomById: getRoomById
 };

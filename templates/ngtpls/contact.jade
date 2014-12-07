@@ -11,6 +11,6 @@ div.contact(ng-init="showTab=[1]")
                 span.list-group-item-text(ng-bind="friend.nickname")
 
         div.tab-pane(ng-class="showTab[1]?'active':''")
-            p(ng-repeat="friend in friends")
+            p(ng-repeat="friend in friends", hammer-tap="changeRoom(friend)")
                 img(ng-src="{{ friend.avatar }}")
                 span.list-group-item-text(ng-bind="friend.nickname")

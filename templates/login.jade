@@ -19,7 +19,7 @@ block content
                             input.form-control(type="password", placeholder="密码", ng-model="password", required)
                     div.form-group
                         div.col-sm-offset-3.col-sm-9.text-right
-                            button.btn.btn-primary(ng-click="form.$valid && login()") 登录
+                            button.btn.btn-primary(hammer-tap="form.$valid && login()") 登录
 
 block javascript
     script(src="/static/js/page/login.js")

@@ -2,26 +2,31 @@ require([
         'socketio',
         'js/module/message-middleware',
         'js/common/url',
+        'js/common/utils',
         'js/common/directives',
         'js/common/services',
         'bootstrap',
         'angular',
         'js/module/contact',
-        'js/module/search-friends'
+        'js/module/search-friends',
+        'js/module/room'
     ],
     function(
         io,
         messageMiddleware,
-        url
+        url,
+        utils
     ) {
         angular.module('index', ['directivesModule', 'servicesModule', 'moduleModule']).controller('IndexController', [
             '$scope',
             '$http',
             'safeApply',
+            'roomFactory',
             function(
                 $scope,
                 $http,
-                safeApply
+                safeApply,
+                roomFactory
             ) {
                 $scope.user = page.user;
                 $scope.token = page.token;
@@ -34,19 +39,18 @@ require([
                     });
                 }
 
-                // 初始化聊天室
-                $http.get('/chatroom-ajax?token=' + $scope.token).then(function(result) {
-                    $scope.rooms = result.data;
-                    $scope.changeRoom($scope.rooms[0]);
-                });
-                $scope.changeRoom = function(room) {
-                    if (!room) return;
-                    $scope.activeRoom = room;
-                    $scope.rooms.forEach(function(room) {
-                        room.active = $scope.activeRoom.id === room.id;
+                $scope.$watch('activeRoom', function(newValue, oldValue) {
+                    $scope.rooms = $scope.rooms || [];
+                    if (oldValue) {
+                        $scope.rooms.push(oldValue);
+                    }
+                    if (newValue) {
+                        $scope.rooms.push(newValue);
+                    }
+                    $scope.rooms = utils.distinctArray($scope.rooms, function(room) {
+                        return room.id;
                     });
-                    getMessages(room.id);
-                };
+                });
 
                 // socket连接
                 var socket = io('/?token=' + $scope.token);

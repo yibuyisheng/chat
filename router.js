@@ -106,6 +106,17 @@ api.get('/registe', function * () {
         this.response.body = '';
         this.response.set('Content-Type', 'text/plain');
     } catch (e) {
+        this.throw(403, '错误：' + e.message);
+    }
+
+}).get('/get-room-ajax', function * () {
+
+    try {
+        var roomId = this.request.query.room_id;
+        var room = yield chatroomService.getRoomById(roomId);
+        this.response.body = JSON.stringify(room);
+        this.response.set('Content-Type', 'text/plain');
+    } catch (e) {
         console.log(e.stack);
         this.throw(403, '错误：' + e.message);
     }

@@ -1,10 +1,11 @@
 require([
         'bootstrap',
-        'angular'
+        'angular',
+        'js/common/directives'
     ], function(
 
     ) {
-        angular.module('login', []).controller('LoginController', [
+        angular.module('login', ['directivesModule']).controller('LoginController', [
             '$scope',
             '$http',
             function(

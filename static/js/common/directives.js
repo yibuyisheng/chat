@@ -1,4 +1,4 @@
-define(['jquery', 'angular', 'js/common/services'], function($) {
+define(['jquery', 'hammer', 'angular', 'js/common/services'], function($, Hammer) {
     var directivesModule;
     try {
         directivesModule = angular.module('directivesModule');
@@ -25,6 +25,22 @@ define(['jquery', 'angular', 'js/common/services'], function($) {
                     });
                 }
             };
+        }
+    ]).directive('hammerTap', [
+        function() {
+            return {
+                restrict: 'A',
+                link: function(scope, element, attrs) {
+                    var hammer = new Hammer(element[0]);
+                    function handler() {
+                        scope.$apply(attrs.hammerTap);
+                    }
+                    hammer.on('tap', handler);
+                    element.on('$destroy', function() {
+                        hammer.off('tap', handler);
+                    });
+                }
+            }
         }
     ]);
 

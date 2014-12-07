@@ -27,6 +27,12 @@ a {
 .contact .tab-pane p:first-child {
   margin-top: 5px;
 }
+.contact .tab-pane > p {
+  cursor: pointer;
+}
+.contact .tab-pane > p:hover {
+  background: #eee;
+}
 .contact .tab-content {
   min-height: 100px;
   overflow-y: auto;
