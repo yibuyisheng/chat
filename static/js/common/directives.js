@@ -40,7 +40,37 @@ define(['jquery', 'hammer', 'angular', 'js/common/services'], function($, Hammer
                         hammer.off('tap', handler);
                     });
                 }
-            }
+            };
+        }
+    ])
+    /**
+     * 当放在scrollBottom里面的值变动了的话，就开始判断是否应该滚动到最底部
+     */
+    .directive('scrollBottom', [
+        '$timeout',
+        function(
+            $timeout
+        ) {
+            return {
+                restrict: 'A',
+                link: function(scope, element, attrs) {
+                    var isFirstTime = true;
+                    function scrollBottom() {
+                        $timeout(function() {
+                            var lastChildHeight = element.find('>:last-child').outerHeight();
+                            var scrollTop = element.scrollTop();
+                            var scrollHeight = element[0].scrollHeight;
+                            var elementHeight = element.height();
+
+                            if (scrollHeight - scrollTop - elementHeight <= lastChildHeight + 30) {
+                                element.scrollTop(scrollHeight + 1000);
+                            }
+                        });
+                    }
+
+                    scope.$watch(attrs.scrollBottom, scrollBottom, true);
+                }
+            };
         }
     ]);
 

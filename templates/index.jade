@@ -16,7 +16,7 @@ block content
                     img(height="20", src="http://placehold.it/30x30")
 
         div.chat-box(ng-show="activeRoom")
-            div.messages
+            div.messages(scroll-bottom="messages[activeRoom.id]")
                 div(ng-repeat="message in messages[activeRoom.id]", ng-class="message.from_user_id==user.id?'right':'left'")
                     div.clearfix
                         img.head(ng-src="{{ message.from_user_avatar }}")
