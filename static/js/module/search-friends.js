@@ -46,6 +46,8 @@ define(['js/module/module-helper', 'js/common/utils', 'angular'], function(helpe
                                 return item.id !== friend.id;
                             });
                             alert('添加成功');
+                        }, function(e) {
+                            alert('添加失败：' + e.message);
                         });
                     };
                 }

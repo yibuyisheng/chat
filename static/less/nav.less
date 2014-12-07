@@ -1,0 +1,47 @@
+@headerHeight: 50px;
+nav.header {
+    background: #f8f8f8;
+    position: relative;
+    border-bottom: 1px solid #e7e7e7;
+    border-top: 1px solid #e7e7e7;
+    margin-bottom: 20px;
+
+    &>div:nth-child(1) {
+        position: absolute;
+        left: 0;
+        width: 100px;
+    }
+    &>div:nth-child(2) {
+        margin-left: 100px;
+        margin-right: 200px;
+        height: @headerHeight;
+
+        a {
+            color: #555;
+            line-height: @headerHeight;
+            height: @headerHeight;
+            display: inline-block;
+            padding: 0 10px;
+
+            &:hover, &:focus, &:visited {
+                text-decoration: none;
+            }
+
+            &.active, &:hover {
+                background: #e7e7e7;
+            }
+        }
+    }
+    &>div:nth-child(3) {
+        position: absolute;
+        right: 10px;
+        top: 0;
+        width: 190px;
+        line-height: @headerHeight;
+        text-align: right;
+
+        a {
+            margin-left: 5px;
+        }
+    }
+}

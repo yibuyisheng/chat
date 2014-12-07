@@ -4,18 +4,16 @@ block head
     title chat
 block content
     div.page-index(ng-controller="IndexController")
-        nav.navbar.navbar-default(role="navigation")
-            div.container-fluid
-                div.navbar-header
-                    button.btn.btn-default.navbar-btn(ng-click="showContact=!showContact") 联系人
-                div.collapse.navbar-collapse
-                    ul.nav.navbar-nav(style="margin-left:5px")
-                        li(ng-repeat="room in rooms", ng-class="room.active?'active':''")
-                            a(ng-bind="room.name", ng-click="changeRoom(room)")
-                    p.navbar-text.navbar-right 欢迎您，
-                        span #{user.nickname}
-                        a(style="margin-left:10px", ng-click="showSearchFriends=true")
-                            img(height="20", src="http://placehold.it/30x30")
+        nav.header.clearfix
+            div
+                button.btn.btn-default.navbar-btn(ng-click="showContact=!showContact") 联系人
+            div
+                a(ng-repeat="room in rooms", ng-bind="room.name", ng-click="changeRoom(room)", ng-class="room.active?'active':''")
+            div
+                | 欢迎您，
+                span #{user.nickname}
+                a(ng-click="showSearchFriends=true")
+                    img(height="20", src="http://placehold.it/30x30")
 
         div.chat-box
             div.messages

@@ -53,7 +53,7 @@ function registe(user) {
         "values('{0}', '{1}', '{2}', '{3}', '{4}')"
     ].join(' '), user.name, user.nickname, user.password, user.email, user.avatar);
     return db.executeSql(sql).then(function(result) {
-        var sql = "select * from chat.user where id=" + result.insertId;
+        var sql = "select * from chat.user where id=" + result[0].insertId;
         return db.executeSql(sql);
     }).then(function(result) {
         var user = result[0][0];
