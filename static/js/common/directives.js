@@ -72,6 +72,39 @@ define(['jquery', 'hammer', 'angular', 'js/common/services'], function($, Hammer
                 }
             };
         }
+    ])
+    /**
+     * 放在html元素的属性当中，用于检测设备相关的东西，比如屏幕大小，检测数据放在$rootScope当中
+     */
+    .directive('deviceDetect', [
+        '$rootScope',
+        'safeApply',
+        function(
+            $rootScope,
+            safeApply
+        ) {
+            return {
+                restrict: 'A',
+                link: function(scope, element, attrs) {
+                    if (element[0].tagName.toLowerCase() !== 'html') return;
+                    function getDeviceData() {
+                        safeApply($rootScope, function($scope) {
+                            $scope.device = {
+                                viewWidth: $win.width(),
+                                viewHeight: $win.height()
+                            };
+                        });
+                    }
+                    var $win = $(window);
+                    getDeviceData();
+
+                    $win.on('resize', getDeviceData);
+                    element.on('$destroy', function() {
+                        $win.off('resize', getDeviceData);
+                    });
+                }
+            }
+        }
     ]);
 
     return directivesModule;

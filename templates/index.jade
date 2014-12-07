@@ -5,11 +5,11 @@ block head
 block content
     div.page-index(ng-controller="IndexController")
         nav.header.clearfix
-            div
+            div(devide="{{device}}")
                 button.btn.btn-default.navbar-btn(hammer-tap="showContact=!showContact") 联系人
-            div
+            div(ng-if="device.viewWidth>700")
                 a(ng-repeat="room in rooms", ng-bind="room.name", hammer-tap="changeRoom(room)", ng-class="room==activeRoom?'active':''")
-            div
+            div(ng-if="device.viewWidth>700")
                 | 欢迎您，
                 span #{user.nickname}
                 a(ng-click="showSearchFriends=true")
