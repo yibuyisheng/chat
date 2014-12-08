@@ -21,7 +21,7 @@ var pool = mysql.createPool({
 * 4、安装grunt：npm install -g grunt-cli；
 * 5、在项目根目录下运行npm install；
 * 6、在项目根目录下运行grunt develop；
-* 7、打开浏览器，地址栏中输入：http://127.0.0.1:3000/registe，如果能正常出来注册页面，那么恭喜您，项目成功跑起来了。
+* 7、打开浏览器，地址栏中输入：[http://127.0.0.1:3000/registe]()，如果能正常出来注册页面，那么恭喜您，项目成功跑起来了。
 
 ## 联系作者：
 email: yibuyisheng@163.com
