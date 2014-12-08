@@ -90,8 +90,8 @@ define(['jquery', 'hammer', 'angular', 'js/common/services'], function($, Hammer
                     function getDeviceData() {
                         safeApply($rootScope, function($scope) {
                             $scope.device = {
-                                viewWidth: $win.width(),
-                                viewHeight: $win.height()
+                                viewWidth: window.innerWidth,
+                                viewHeight: window.innerHeight
                             };
                         });
                     }
