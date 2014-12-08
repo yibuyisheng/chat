@@ -2,7 +2,7 @@ div.model.search-friends
     div.modal-dialog
         div.modal-content
             div.modal-header
-                button.close(ng-click="show=false")
+                button.close(hammer-tap="show=false")
                     span ×
                     span.sr-only 关闭
                 h4.modal-title 搜索
@@ -10,19 +10,19 @@ div.model.search-friends
                 div.input-group
                   input.form-control(type="text", ng-model="keyword", ng-init="infoText=['请输入好友昵称','请输入群名称']", placeholder="{{ infoText[actionType] }}")
                   div.input-group-btn(ng-init="actionText=['搜索好友', '搜索群'];actionType=0")
-                    button.btn.btn-default(tabindex="-1", ng-bind="actionText[actionType]", ng-click="search()")
+                    button.btn.btn-default(tabindex="-1", ng-bind="actionText[actionType]", hammer-tap="search()")
                     button.btn.btn-default.dropdown-toggle(data-toggle="dropdown")
                         span.caret
                     ul.dropdown-menu.dropdown-menu-right
                         li(ng-repeat="text in actionText")
-                            a(ng-bind="text", ng-click="$parent.actionType=$index")
+                            a(ng-bind="text", hammer-tap="$parent.actionType=$index")
 
                 ul.list-group(ng-if="actionType==0")
                     li.list-group-item(style="position:relative", ng-repeat="friend in friends")
                         div(style="margin-right:50px", ng-bind="friend.nickname")
                         div(style="position:absolute;top:0;right:3px;height:40px;line-height:40px;")
-                            a(ng-click="addFriend(friend)") 添加好友
+                            a(hammer-tap="addFriend(friend)") 添加好友
                 ul.list-group(ng-if="actionType==1")
                     li.list-group-item(ng-repeat="room in rooms", ng-bind="room.name")
             div.modal-footer
-                button.btn.btn-default(ng-click="show=false") 关闭
+                button.btn.btn-default(hammer-tap="show=false") 关闭

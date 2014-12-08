@@ -12,7 +12,7 @@ block content
             div(ng-if="device.viewWidth>700")
                 | 欢迎您，
                 span #{user.nickname}
-                a(ng-click="showSearchFriends=true")
+                a(hammer-tap="showSearchFriends=true")
                     img(height="20", src="http://placehold.it/30x30")
 
         div.chat-box(ng-show="activeRoom")
@@ -25,7 +25,7 @@ block content
                         div(ng-bind="message.content")
 
             div.tool-box.clearfix
-                button.send.pull-right(ng-click="send()") 发送
+                button.send.pull-right(hammer-tap="send()") 发送
             div.chat-editor(contenteditable="true", ng-model="message")
                 | 内容可编辑
 

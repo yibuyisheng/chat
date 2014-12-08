@@ -35,20 +35,20 @@ block content
                             input.form-control(type="password", placeholder="确认密码", ng-model="user.confirmPassword", required)
                     div.form-group
                         div.col-sm-offset-3.col-sm-9.text-right
-                            button.btn.btn-primary(ng-click="form.$valid && registe()") 注册
+                            button.btn.btn-primary(hammer-tap="form.$valid && registe()") 注册
 
         div.model.alert.hide(ng-class="alert.show?'show':'hide'")
             div.modal-dialog.modal-sm
                 div.modal-content
                     div.modal-header
-                        button.close(ng-click="alert.show=false")
+                        button.close(hammer-tap="alert.show=false")
                             span ×
                             span.sr-only 关闭
                         h4.modal-title(ng-bind="alert.title")
                     div.modal-body
                         p(ng-bind="alert.content")
                     div.modal-footer
-                        button.btn.btn-default(ng-click="alert.show=false") 关闭
+                        button.btn.btn-default(hammer-tap="alert.show=false") 关闭
 
 block javascript
     script(src="/static/js/page/registe.js")
