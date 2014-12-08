@@ -6,6 +6,7 @@ chat旨在提供一个聊天工具的基础功能，其余功能可以通过插�
 * 操作系统：MAC OS或者LINUX
 * nodejs 0.11.*
 * mysql 5.6.20
+
 #### 跑起来
 * 1、git clone https://github.com/yibuyisheng/chat.git
 * 2、安装mysql，建立名为chat的数据库；
