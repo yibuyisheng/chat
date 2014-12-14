@@ -26,8 +26,7 @@ block content
 
             div.tool-box.clearfix
                 button.send.pull-right(hammer-tap="send()") 发送
-            div.chat-editor(contenteditable="true", ng-model="message")
-                | 内容可编辑
+            editor.chat-editor(content="message")
 
         contact(ng-show="showContact", token="token", friends="friends", current-room="activeRoom")
         search-friends(ng-show="showSearchFriends", token="token", show="showSearchFriends", already-friends="friends", already-rooms="rooms", self="user", friends-change="getFriends()")

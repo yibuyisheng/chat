@@ -13,16 +13,17 @@ define(['jquery', 'hammer', 'angular', 'js/common/services'], function($, Hammer
                 restrict: 'A',
                 require: 'ngModel',
                 link: function(scope, element, attrs, ngModelCtrl) {
-                    function getText() {
-                        var text = element[0].innerText;
-                        ngModelCtrl.$setViewValue(text);
-                    }
                     getText();
                     element.on('keyup.editable paste.editable', getText);
 
                     element.on('$destroy', function() {
                         element.off('keyup.editable paste.editable', getText);
                     });
+
+                    function getText() {
+                        var text = element[0].innerText;
+                        ngModelCtrl.$setViewValue(text);
+                    }
                 }
             };
         }
@@ -32,13 +33,14 @@ define(['jquery', 'hammer', 'angular', 'js/common/services'], function($, Hammer
                 restrict: 'A',
                 link: function(scope, element, attrs) {
                     var hammer = new Hammer(element[0]);
-                    function handler() {
-                        scope.$apply(attrs.hammerTap);
-                    }
                     hammer.on('tap', handler);
                     element.on('$destroy', function() {
                         hammer.off('tap', handler);
                     });
+
+                    function handler() {
+                        scope.$apply(attrs.hammerTap);
+                    }
                 }
             };
         }

@@ -1,6 +1,5 @@
 require([
         'socketio',
-        'js/module/message-middleware',
         'js/common/url',
         'js/common/utils',
         'js/common/directives',
@@ -9,11 +8,11 @@ require([
         'angular',
         'js/module/contact',
         'js/module/search-friends',
-        'js/module/room'
+        'js/module/room',
+        'js/module/editor'
     ],
     function(
         io,
-        messageMiddleware,
         url,
         utils
     ) {
@@ -53,9 +52,9 @@ require([
                 var socket = io('/?token=' + $scope.token);
                 socket.on('connect', function(message) {
                     $scope.send = function() {
-                        var msg = messageMiddleware.setMessage($scope.message).go().getMessage();
+                        // var msg = messageMiddleware.setMessage($scope.message).go().getMessage();
                         socket.emit('chat message', JSON.stringify({
-                            content: msg,
+                            content: $scope.message,
                             datetime: new Date().getTime(),
                             token: $scope.token,
                             chatroomId: $scope.activeRoom.id

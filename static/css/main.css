@@ -109,11 +109,13 @@ a {
   right: 0;
   bottom: 0;
   overflow: auto;
-  border: 1px solid #ddd;
-  padding: 5px;
 }
 .chat-box .chat-editor:focus {
   outline: none;
+}
+.chat-box .chat-editor .content {
+  border: 1px solid #ddd;
+  padding: 5px;
 }
 .page-index contact {
   position: absolute;
