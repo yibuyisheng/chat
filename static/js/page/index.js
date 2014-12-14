@@ -43,9 +43,6 @@ require([
                         $scope.rooms.push(newValue);
 
                         getMessages(newValue.id);
-                        // $http.get('/get-messages-ajax?token=' + $scope.token + '&chatroom_id=' + newValue.id).then(function(result) {
-                        //     $scope.messages[newValue.id] = result.data;
-                        // });
                     }
                     $scope.rooms = utils.distinctArray($scope.rooms, function(room) {
                         return room.id;
@@ -94,6 +91,10 @@ require([
                 }
                 // 转换从服务器收到的消息
                 function messagesTrustAsHtml(messageList) {
+                    if (!angular.isArray(messageList)) {
+                        messageList.content = $sce.trustAsHtml(messageList.content);
+                        return messageList;
+                    }
                     return utils.map(messageList, function(message) {
                         message.content = $sce.trustAsHtml(message.content);
                         return message;

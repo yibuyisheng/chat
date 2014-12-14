@@ -87,6 +87,7 @@ a {
 }
 .chat-box .messages .right .message-content > div {
   float: right;
+  text-align: left;
 }
 .chat-box .messages .left .message-content {
   margin-left: 30px;

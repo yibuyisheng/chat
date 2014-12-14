@@ -14,7 +14,7 @@ define(['jquery', 'hammer', 'angular', 'js/common/services'], function($, Hammer
                 require: 'ngModel',
                 link: function(scope, element, attrs, ngModelCtrl) {
                     function getText() {
-                        var text = element.text();
+                        var text = element[0].innerText;
                         ngModelCtrl.$setViewValue(text);
                     }
                     getText();
