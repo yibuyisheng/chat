@@ -22,7 +22,7 @@ block content
                         img.head(ng-src="{{ message.from_user_avatar }}")
                         span(ng-bind="message.from_user_nickname")
                     div.message-content.clearfix
-                        div(ng-bind="message.content")
+                        div(ng-bind-html="message.content")
 
             div.tool-box.clearfix
                 button.send.pull-right(hammer-tap="send()") 发送

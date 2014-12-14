@@ -5,7 +5,8 @@ require([
     ], function(
 
     ) {
-        angular.module('login', ['directivesModule']).controller('LoginController', [
+        angular.module('login', ['directivesModule'])
+        .controller('LoginController', [
             '$scope',
             '$http',
             function(

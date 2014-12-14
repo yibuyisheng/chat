@@ -6,5 +6,5 @@ define(['js/common/utils'], function(utils) {
         filtersModule = angular.module('filtersModule', []);
     }
 
-    
+
 });

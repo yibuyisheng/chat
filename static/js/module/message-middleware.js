@@ -1,4 +1,11 @@
-define(['js/common/middleware', 'jquery'], function(middleware, $) {
+define([
+    'js/common/middleware',
+    'jquery',
+    'markdown'
+], function(
+    middleware,
+    $
+) {
     var messageMiddleware = $.extend({}, middleware, {
         setMessage: function(msg) {
             this._msg = msg;
@@ -9,6 +16,9 @@ define(['js/common/middleware', 'jquery'], function(middleware, $) {
         }
     });
 
+    messageMiddleware.use(function() {
+        this.setMessage(markdown.toHTML(this.getMessage()));
+    });
     // 一堆对消息进行处理的插件
     // messageMiddleware.use(function() {
     //     var msg = this.getMessage();
