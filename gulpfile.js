@@ -30,6 +30,4 @@ gulp.task('supervisor', function() {
         childProcess = exec('node --harmony server.js');
     }
 });
-gulp.task('develop', function() {
-    // place code for your default task here
-});
+gulp.task('develop', ['less', 'supervisor']);
