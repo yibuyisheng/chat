@@ -39,6 +39,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-supervisor": "^0.2.4",
     "gulp": "^3.8.10",
+    "gulp-less": "^2.0.1",
     "mocha": "^2.0.1"
   }
 }
