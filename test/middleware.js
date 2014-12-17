@@ -22,6 +22,9 @@ describe('#middleware', function() {
         });
     });
 
+    /**
+     * https://github.com/ruanyf/es6tutorial/blob/gh-pages/docs/generator.md
+     */
     it('generator', function(done) {
         function * g1 () {
             yield 1;
