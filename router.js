@@ -6,6 +6,7 @@ var messageService = require('./service/message.js');
 var chatroomService = require('./service/chatroom.js');
 var parse = require('co-body');
 var path = require('path');
+var co = require('co');
 
 var api = new Router();
 
@@ -46,81 +47,77 @@ api.get('/registe', function * () {
 
 }).get('/index', function * () {
 
-    yield this.render('index', {user: this.user, token: this.token});
+    yield common(function * () {
+        yield this.render('index', {user: this.user, token: this.token});
+    }, this);
 
 }).get('/get-messages-ajax', function * () {
 
-    try {
+    yield common(function * () {
         var messages = yield messageService.getMessagesByChatroom(this.request.query.chatroom_id);
         this.response.body = JSON.stringify(messages);
         this.response.set('Content-Type', 'text/plain');
-    } catch (e) {
-        this.throw(403, '错误：' + e.message);
-    }
+    }, this);
 
 }).get('/chatroom-ajax', function * () {
 
-    try {
+    yield common(function * () {
         var rooms = yield chatroomService.findRoomsByUser(this.user.id);
         this.response.body = JSON.stringify(rooms);
         this.response.set('Content-Type', 'text/plain');
-    } catch (e) {
-        this.throw(403, '错误：' + e.message);
-    }
+    }, this);
 
 }).get('/find-friends-ajax', function * () {
 
-    try {
+    yield common(function * () {
         var friends = yield userService.findFriends(this.user.id);
         this.response.body = JSON.stringify(friends);
         this.response.set('Content-Type', 'text/plain');
-    } catch (e) {
-        this.throw(403, '错误：' + e.message);
-    }
+    }, this);
 
 }).get('/search-friends-ajax', function * () {
 
-    try {
+    yield common(function * () {
         var friends = yield userService.searchFriends(this.request.query.keyword);
         this.response.body = JSON.stringify(friends);
         this.response.set('Content-Type', 'text/plain');
-    } catch (e) {
-        this.throw(403, '错误：' + e.message);
-    }
+    }, this);
 
 }).get('/search-rooms-ajax', function * () {
 
-    try {
+    yield common(function * () {
         var rooms = yield chatroomService.searchRooms(this.request.query.keyword);
         this.response.body = JSON.stringify(rooms);
         this.response.set('Content-Type', 'text/plain');
-    } catch (e) {
-        this.throw(403, '错误：' + e.message);
-    }
+    }, this);
 
 }).post('/add-friend', function * () {
 
-    try {
+    yield common(function * () {
         var data = yield parse.json(this.request);
         yield userService.addFriend(this.user.id, data.friend_id);
         this.response.body = '';
         this.response.set('Content-Type', 'text/plain');
-    } catch (e) {
-        this.throw(403, '错误：' + e.message);
-    }
+    }, this);
 
 }).get('/get-room-ajax', function * () {
 
-    try {
+    yield common(function * () {
         var roomId = this.request.query.room_id;
         var room = yield chatroomService.getRoomById(roomId);
         this.response.body = JSON.stringify(room);
         this.response.set('Content-Type', 'text/plain');
-    } catch (e) {
-        console.log(e.stack);
-        this.throw(403, '错误：' + e.message);
-    }
+    }, this);
 
 });
 
 module.exports = api;
+
+function * common (fn, context) {
+    try {
+        yield fn.call(context);
+    } catch (e) {
+        console.log(e.stack);
+        context.throw(403, '错误：' + e.message);
+    }
+}

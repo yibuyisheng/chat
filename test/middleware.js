@@ -22,7 +22,7 @@ describe('#middleware', function() {
         });
     });
 
-    it.only('generator', function(done) {
+    it('generator', function(done) {
         function * g1 () {
             yield 1;
             yield 2;

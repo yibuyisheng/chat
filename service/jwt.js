@@ -29,10 +29,11 @@ function * koaJwt(next) {
             var token = this.request.query.token;
             this.user = decode(token);
             this.token = token;
-            yield next;
         } catch (e) {
             this.throw(403, '请登录');
+            return;
         }
+        yield next;
     }
 
     yield next;

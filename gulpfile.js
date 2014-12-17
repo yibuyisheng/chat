@@ -28,6 +28,12 @@ gulp.task('supervisor', function() {
             process.kill(childProcess.pid, 'SIGHUP');
         }
         childProcess = exec('node --harmony server.js');
+        childProcess.stdout.on('data', function(data) {
+            console.log(data);
+        });
+        childProcess.stderr.on('data', function(data) {
+            console.log(data);
+        });
     }
 });
 gulp.task('develop', ['less', 'supervisor']);
