@@ -27,6 +27,7 @@ describe('#middleware', function() {
             yield 1;
             yield 2;
             yield 3;
+            return 7;
         }
 
         /**
@@ -39,6 +40,10 @@ describe('#middleware', function() {
          */
         function * g2 () {
             yield * g1();
+        }
+
+        function * g6 () {
+            return yield * g1();
         }
 
         /**
@@ -83,11 +88,23 @@ describe('#middleware', function() {
         assert.equal(1, iterator.next().value);
         assert.equal(2, iterator.next().value);
         assert.equal(3, iterator.next().value);
+        assert.equal(7, iterator.next().value);
+        assert.equal(undefined, iterator.next().value);
 
         iterator = g2();
         assert.equal(1, iterator.next().value);
         assert.equal(2, iterator.next().value);
         assert.equal(3, iterator.next().value);
+        // 此处并没有7
+        assert.equal(undefined, iterator.next().value);
+        assert.equal(undefined, iterator.next().value);
+
+        iterator = g6();
+        assert.equal(1, iterator.next().value);
+        assert.equal(2, iterator.next().value);
+        assert.equal(3, iterator.next().value);
+        assert.equal(7, iterator.next().value);
+        assert.equal(undefined, iterator.next().value);
 
         iterator = g3();
         var g1Iterator = iterator.next().value;
@@ -95,19 +112,26 @@ describe('#middleware', function() {
         assert.equal(1, g1Iterator.next().value);
         assert.equal(2, g1Iterator.next().value);
         assert.equal(3, g1Iterator.next().value);
+        assert.equal(7, g1Iterator.next().value);
+        assert.equal(undefined, g1Iterator.next().value);
         assert.equal(6, iterator.next().value);
+        assert.equal(undefined, iterator.next().value);
 
         iterator = g4();
         assert.equal(1, iterator.next().value);
         assert.equal(2, iterator.next().value);
         assert.equal(3, iterator.next().value);
+        // 此处并没有7
         assert.equal(4, iterator.next().value);
+        assert.equal(undefined, iterator.next().value);
 
         iterator = g5();
         assert.equal(5, iterator.next().value);
         assert.equal(1, iterator.next().value);
         assert.equal(2, iterator.next().value);
         assert.equal(3, iterator.next().value);
+        // 此处并没有7
+        assert.equal(undefined, iterator.next().value);
 
         done();
     });
