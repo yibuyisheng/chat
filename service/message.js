@@ -3,6 +3,11 @@ var format = require('nodejs-lib').format;
 var dateFormat = require('nodejs-lib').dateFormat;
 var chatroomService = require('./chatroom.js');
 
+module.exports = {
+    parse: parse,
+    getMessagesByChatroom: getMessagesByChatroom
+};
+
 function saveMessage(fromUserId, chatroomId, content, sendDate) {
     var sql = format(
         "insert into chat.message(content, from_user_id, chatroom_id, send_date) values('{0}', {1}, {2}, '{3}')",
@@ -58,8 +63,3 @@ function getMessagesByChatroom(chatroomId) {
         return result[0];
     });
 }
-
-module.exports = {
-    parse: parse,
-    getMessagesByChatroom: getMessagesByChatroom
-};

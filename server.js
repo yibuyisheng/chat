@@ -9,6 +9,7 @@ var messageService = require('./service/message.js');
 var createMiddleware = require('./common/middleware.js');
 var api = require('./router.js');
 var jwt = require('./service/jwt.js');
+var config = require('./config.js');
 
 var app = koa();
 
@@ -66,4 +67,4 @@ io.on('connection', function(socket) {
         sockets[socket.userId] = null;
     });
 });
-server.listen(3000);
+server.listen(config.serverPort);

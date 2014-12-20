@@ -1,9 +1,11 @@
 var mysql = require('mysql');
+var config = require('../config.js');
+
 var pool = mysql.createPool({
-    connectionLimit: 10,
-    host: '127.0.0.1',
-    user: 'root',
-    password: 'root'
+    connectionLimit: config.connectionLimit,
+    host: config.host,
+    user: config.user,
+    password: config.password
 });
 
 function executeSql(sql) {
@@ -33,6 +35,9 @@ module.exports = {
                 resolve(conn);
             });
         }).then(function(conn) {
+            connection = conn;
+            return fn(execute);
+
             function execute(sql) {
                 return new Promise(function(resolve, reject) {
                     conn.query(sql, function(error) {
@@ -41,8 +46,6 @@ module.exports = {
                     });
                 });
             }
-            connection = conn;
-            return fn(execute);
         }).then(function() {
             connection.commit();
             connection.release();

@@ -12,6 +12,14 @@ var userValidatePaths = [
     '/add-friend',
     '/get-room-ajax'
 ];
+
+module.exports = {
+    decode: decode,
+    encode: encode,
+    koaJwt: koaJwt
+};
+
+
 function decode(token) {
     return jwt.decode(token, secret);
 }
@@ -38,9 +46,3 @@ function * koaJwt(next) {
 
     yield next;
 }
-
-module.exports = {
-    decode: decode,
-    encode: encode,
-    koaJwt: koaJwt
-};

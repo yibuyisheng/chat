@@ -2,6 +2,14 @@ var db = require('../db/database.js');
 var format = require('nodejs-lib').format;
 var jwt = require('./jwt.js');
 
+module.exports = {
+    login: login,
+    registe: registe,
+    findFriends: findFriends,
+    searchFriends: searchFriends,
+    addFriend: addFriend
+};
+
 function login(name, password) {
     var sql = format("select * from chat.user where nickname='{0}' or email='{1}'", name, name);
     return db.executeSql(sql).then(function(result) {
@@ -91,11 +99,3 @@ function addFriend(selfId, friendId) {
         });
     });
 }
-
-module.exports = {
-    login: login,
-    registe: registe,
-    findFriends: findFriends,
-    searchFriends: searchFriends,
-    addFriend: addFriend
-};

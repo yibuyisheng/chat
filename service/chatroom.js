@@ -1,6 +1,13 @@
 var db = require('../db/database.js');
 var format = require('nodejs-lib').format;
 
+module.exports = {
+    findMemberIds: findMemberIds,
+    findRoomsByUser: findRoomsByUser,
+    searchRooms: searchRooms,
+    getRoomById: getRoomById
+};
+
 function findMemberIds(chatroomId) {
     var sql = "select user_id from chat.chatroom_user where chatroom_id=" + chatroomId;
     return db.executeSql(sql);
@@ -33,10 +40,3 @@ function getRoomById(roomId) {
         return result[0][0];
     });
 }
-
-module.exports = {
-    findMemberIds: findMemberIds,
-    findRoomsByUser: findRoomsByUser,
-    searchRooms: searchRooms,
-    getRoomById: getRoomById
-};
